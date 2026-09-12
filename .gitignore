@@ -3,5 +3,5 @@ backEnd/node_modules/
 frontEnd/node_modules/
 backEnd/.env
 frontEnd/.env
-backEnd/uploads/
+
 .DS_Store
