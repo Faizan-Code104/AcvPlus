@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { API_BASE_URL } from "../config";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  ArrowRight,
   Check,
   Eye,
   EyeOff,
@@ -12,8 +10,6 @@ import {
 } from "lucide-react";
 
 const Signup = () => {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,7 +21,6 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -82,68 +77,10 @@ const Signup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    setServerError("");
     setSuccessMessage("");
-
-    if (!validateForm()) {
-      return;
-    }
-
-    const signupValues = {
-      name: formData.name.trim(),
-      email: formData.email.trim().toLowerCase(),
-      password: formData.password,
-    };
-
-    console.log("Signup Form Values:", signupValues);
-
-    try {
-      setLoading(true);
-
-      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(signupValues),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setServerError(data.message || "Registration failed");
-        return;
-      }
-
-      console.log("Signup API Response:", data);
-
-      setSuccessMessage(
-        "Account created successfully. Redirecting to login...",
-      );
-
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        terms: false,
-      });
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 1500);
-    } catch (error) {
-      console.error("Signup API Error:", error);
-
-      setServerError(
-        "Unable to connect to server. Please make sure the backend is running.",
-      );
-    } finally {
-      setLoading(false);
-    }
+    setServerError("Account registration is temporarily unavailable.");
   };
 
   return (
@@ -433,17 +370,11 @@ const Signup = () => {
               {/* Submit */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled
                 className="group flex w-full items-center justify-center gap-2 bg-ink px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-paper transition-colors duration-300 hover:bg-bottle-dark disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? "Creating Account..." : "Create Account"}
+                Registration Temporarily Unavailable
 
-                {!loading && (
-                  <ArrowRight
-                    size={17}
-                    className="transition-transform duration-300 group-hover:translate-x-1"
-                  />
-                )}
               </button>
             </form>
 
