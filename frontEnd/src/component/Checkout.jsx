@@ -623,7 +623,7 @@ const Checkout = () => {
                       </h3>
 
                       <p className="mt-3 text-xs leading-6 text-paper/65">
-                        We are currently completing our secure online
+                        We are currently completing our online
                         payment setup. Ziveline is not accepting
                         completed online orders or card payments through
                         this website at this time.

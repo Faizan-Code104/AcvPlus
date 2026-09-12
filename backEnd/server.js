@@ -10,6 +10,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 dotenv.config();
 
@@ -194,6 +195,8 @@ connectDB();
 /* =========================================
    ROUTES
 ========================================= */
+
+app.use("/api/contact", contactRoutes);
 
 app.use("/api/auth", authRoutes);
 

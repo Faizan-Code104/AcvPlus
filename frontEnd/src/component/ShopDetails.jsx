@@ -358,19 +358,17 @@ const ShopDetails = () => {
 
             {/* Stock */}
 
-            <p className="mt-3 text-xs font-bold">
-              {inStock ? (
-                <span className="text-emerald-600">
-                  In Stock (
-                  {product.stock}{" "}
-                  available)
-                </span>
-              ) : (
-                <span className="text-red-500">
-                  Out of Stock
-                </span>
-              )}
-            </p>
+           <p className="mt-3 text-xs font-bold">
+  {inStock ? (
+    <span className="text-emerald-600">
+      In Stock
+    </span>
+  ) : (
+    <span className="text-red-500">
+      Out of Stock
+    </span>
+  )}
+</p>
 
             {/* Description */}
 
