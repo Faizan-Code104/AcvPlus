@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Check,
   Eye,
@@ -7,9 +7,14 @@ import {
   LockKeyhole,
   Mail,
   User,
+  Loader2,
 } from "lucide-react";
 
+import { API_BASE_URL } from "../config";
+
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,8 +26,10 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [serverError, setServerError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -52,7 +59,9 @@ const Signup = () => {
 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
+    ) {
       newErrors.email = "Please enter a valid email";
     }
 
@@ -77,29 +86,98 @@ const Signup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setServerError("");
     setSuccessMessage("");
-    setServerError("Account registration is temporarily unavailable.");
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name.trim(),
+            email: formData.email.trim().toLowerCase(),
+            password: formData.password,
+          }),
+        }
+      );
+
+      let data = {};
+
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            data.error ||
+            "Unable to create your account. Please try again."
+        );
+      }
+
+      setSuccessMessage(
+        "Your account has been created successfully. Redirecting to sign in..."
+      );
+
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        terms: false,
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } catch (error) {
+      setServerError(
+        error.message ||
+          "Unable to create your account. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-paper">
       <div className="grid min-h-screen lg:grid-cols-2">
-        {/* Left Side */}
+
+        {/* LEFT SIDE */}
         <div className="relative hidden overflow-hidden bg-ink lg:flex">
+
           <img
             src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1400&q=85"
-            alt="Premium Ziveline bags"
+            alt="Ziveline bags"
             className="absolute inset-0 h-full w-full object-cover opacity-40"
           />
 
           <div className="absolute inset-0 bg-ink/65" />
 
           <div className="relative z-10 flex w-full flex-col justify-between p-12 xl:p-16">
-            <span className="font-display text-3xl text-paper">Ziveline</span>
+
+            <span className="font-display text-3xl text-paper">
+              Ziveline
+            </span>
 
             <div className="max-w-xl text-paper">
+
               <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-paper/60">
                 Welcome to Ziveline
               </p>
@@ -107,62 +185,94 @@ const Signup = () => {
               <h1 className="font-display text-5xl leading-[1.1] xl:text-6xl">
                 Carry your style.
                 <br />
-                <span className="text-paper/60">Own your journey.</span>
+
+                <span className="text-paper/60">
+                  Own your journey.
+                </span>
               </h1>
 
               <p className="mt-7 max-w-lg text-sm leading-7 text-paper/70">
-                Discover thoughtfully designed bags made for modern everyday
-                living, travel, work, and everything in between.
+                Discover thoughtfully designed bags made for modern
+                everyday living, travel, work, and everything in
+                between.
               </p>
 
               <div className="mt-9 flex items-center gap-3 text-sm font-semibold text-paper">
+
                 <div className="flex h-9 w-9 items-center justify-center border border-paper/20 bg-paper/10">
                   <Check size={16} />
                 </div>
-                Premium quality. Timeless design.
+
+                Practical design for everyday use.
+
               </div>
+
             </div>
 
             <p className="text-xs font-medium text-paper/50">
-              © 2026 Ziveline. All rights reserved.
+              © 2026 Ziveline LLC. All rights reserved.
             </p>
+
           </div>
         </div>
 
-        {/* Right Side */}
+        {/* RIGHT SIDE */}
         <div className="flex items-center justify-center px-5 py-10 sm:px-8 lg:px-12">
+
           <div className="w-full max-w-md">
+
             <div className="mb-8 lg:hidden">
-              <span className="font-display text-3xl text-ink">Ziveline</span>
+              <span className="font-display text-3xl text-ink">
+                Ziveline
+              </span>
             </div>
 
             <div className="mb-8">
+
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-bottle">
                 Create Account
               </p>
 
-              <h2 className="font-display text-4xl text-ink">Join Ziveline</h2>
+              <h2 className="font-display text-4xl text-ink">
+                Join Ziveline
+              </h2>
 
               <p className="mt-3 text-sm leading-6 text-ink/60">
-                Create your account and start carrying your style.
+                Create your account to manage your Ziveline shopping
+                experience.
               </p>
+
             </div>
 
+            {/* SERVER ERROR */}
             {serverError && (
-              <div className="mb-5 border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+              <div
+                role="alert"
+                className="mb-5 border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600"
+              >
                 {serverError}
               </div>
             )}
 
+            {/* SUCCESS */}
             {successMessage && (
-              <div className="mb-5 border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+              <div
+                role="status"
+                className="mb-5 border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700"
+              >
                 {successMessage}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} noValidate className="space-y-5">
-              {/* Name */}
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className="space-y-5"
+            >
+
+              {/* NAME */}
               <div>
+
                 <label
                   htmlFor="name"
                   className="mb-2 block text-xs font-bold text-ink/70"
@@ -171,9 +281,11 @@ const Signup = () => {
                 </label>
 
                 <div className="relative">
+
                   <User
                     size={18}
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-ink/40"
+                    aria-hidden="true"
                   />
 
                   <input
@@ -183,12 +295,16 @@ const Signup = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Enter your full name"
-                    className={`w-full border bg-[#F4F1EB] py-3.5 pl-11 pr-4 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:bg-paper ${
+                    autoComplete="name"
+                    maxLength={80}
+                    disabled={isSubmitting}
+                    className={`w-full border bg-[#F4F1EB] py-3.5 pl-11 pr-4 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:bg-paper disabled:cursor-not-allowed disabled:opacity-60 ${
                       errors.name
                         ? "border-red-400 focus:border-red-500"
                         : "border-line focus:border-ink"
                     }`}
                   />
+
                 </div>
 
                 {errors.name && (
@@ -196,10 +312,12 @@ const Signup = () => {
                     {errors.name}
                   </p>
                 )}
+
               </div>
 
-              {/* Email */}
+              {/* EMAIL */}
               <div>
+
                 <label
                   htmlFor="email"
                   className="mb-2 block text-xs font-bold text-ink/70"
@@ -208,9 +326,11 @@ const Signup = () => {
                 </label>
 
                 <div className="relative">
+
                   <Mail
                     size={18}
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-ink/40"
+                    aria-hidden="true"
                   />
 
                   <input
@@ -220,12 +340,16 @@ const Signup = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="you@example.com"
-                    className={`w-full border bg-[#F4F1EB] py-3.5 pl-11 pr-4 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:bg-paper ${
+                    autoComplete="email"
+                    maxLength={120}
+                    disabled={isSubmitting}
+                    className={`w-full border bg-[#F4F1EB] py-3.5 pl-11 pr-4 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:bg-paper disabled:cursor-not-allowed disabled:opacity-60 ${
                       errors.email
                         ? "border-red-400 focus:border-red-500"
                         : "border-line focus:border-ink"
                     }`}
                   />
+
                 </div>
 
                 {errors.email && (
@@ -233,10 +357,12 @@ const Signup = () => {
                     {errors.email}
                   </p>
                 )}
+
               </div>
 
-              {/* Password */}
+              {/* PASSWORD */}
               <div>
+
                 <label
                   htmlFor="password"
                   className="mb-2 block text-xs font-bold text-ink/70"
@@ -245,9 +371,11 @@ const Signup = () => {
                 </label>
 
                 <div className="relative">
+
                   <LockKeyhole
                     size={18}
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-ink/40"
+                    aria-hidden="true"
                   />
 
                   <input
@@ -257,7 +385,9 @@ const Signup = () => {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Minimum 6 characters"
-                    className={`w-full border bg-[#F4F1EB] py-3.5 pl-11 pr-12 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:bg-paper ${
+                    autoComplete="new-password"
+                    disabled={isSubmitting}
+                    className={`w-full border bg-[#F4F1EB] py-3.5 pl-11 pr-12 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:bg-paper disabled:cursor-not-allowed disabled:opacity-60 ${
                       errors.password
                         ? "border-red-400 focus:border-red-500"
                         : "border-line focus:border-ink"
@@ -266,14 +396,24 @@ const Signup = () => {
 
                   <button
                     type="button"
-                    onClick={() => setShowPassword((value) => !value)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-ink/40 transition hover:text-ink"
+                    onClick={() =>
+                      setShowPassword((value) => !value)
+                    }
+                    disabled={isSubmitting}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-ink/40 transition hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
                     aria-label={
-                      showPassword ? "Hide password" : "Show password"
+                      showPassword
+                        ? "Hide password"
+                        : "Show password"
                     }
                   >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showPassword ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
                   </button>
+
                 </div>
 
                 {errors.password && (
@@ -281,10 +421,12 @@ const Signup = () => {
                     {errors.password}
                   </p>
                 )}
+
               </div>
 
-              {/* Confirm Password */}
+              {/* CONFIRM PASSWORD */}
               <div>
+
                 <label
                   htmlFor="confirmPassword"
                   className="mb-2 block text-xs font-bold text-ink/70"
@@ -293,19 +435,25 @@ const Signup = () => {
                 </label>
 
                 <div className="relative">
+
                   <LockKeyhole
                     size={18}
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-ink/40"
+                    aria-hidden="true"
                   />
 
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
+                    type={
+                      showConfirmPassword ? "text" : "password"
+                    }
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="Confirm your password"
-                    className={`w-full border bg-[#F4F1EB] py-3.5 pl-11 pr-12 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:bg-paper ${
+                    autoComplete="new-password"
+                    disabled={isSubmitting}
+                    className={`w-full border bg-[#F4F1EB] py-3.5 pl-11 pr-12 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:bg-paper disabled:cursor-not-allowed disabled:opacity-60 ${
                       errors.confirmPassword
                         ? "border-red-400 focus:border-red-500"
                         : "border-line focus:border-ink"
@@ -314,8 +462,11 @@ const Signup = () => {
 
                   <button
                     type="button"
-                    onClick={() => setShowConfirmPassword((value) => !value)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-ink/40 transition hover:text-ink"
+                    onClick={() =>
+                      setShowConfirmPassword((value) => !value)
+                    }
+                    disabled={isSubmitting}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-ink/40 transition hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
                     aria-label={
                       showConfirmPassword
                         ? "Hide confirm password"
@@ -328,6 +479,7 @@ const Signup = () => {
                       <Eye size={18} />
                     )}
                   </button>
+
                 </div>
 
                 {errors.confirmPassword && (
@@ -335,29 +487,47 @@ const Signup = () => {
                     {errors.confirmPassword}
                   </p>
                 )}
+
               </div>
 
-              {/* Terms */}
+              {/* TERMS */}
               <div>
+
                 <label className="flex cursor-pointer items-start gap-3">
+
                   <input
                     name="terms"
                     type="checkbox"
                     checked={formData.terms}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                     className="mt-1 h-4 w-4 accent-bottle"
                   />
 
                   <span className="text-sm leading-6 text-ink/60">
+
                     I agree to the{" "}
-                    <button
-                      type="button"
+
+                    <Link
+                      to="/terms-and-conditions"
                       className="font-semibold text-ink hover:underline"
                     >
                       Terms & Conditions
-                    </button>{" "}
-                    and Privacy Policy.
+                    </Link>
+
+                    {" "}and{" "}
+
+                    <Link
+                      to="/privacy-policy"
+                      className="font-semibold text-ink hover:underline"
+                    >
+                      Privacy Policy
+                    </Link>
+
+                    .
+
                   </span>
+
                 </label>
 
                 {errors.terms && (
@@ -365,24 +535,37 @@ const Signup = () => {
                     {errors.terms}
                   </p>
                 )}
+
               </div>
 
-              {/* Submit */}
+              {/* SUBMIT */}
               <button
                 type="submit"
-                disabled
+                disabled={isSubmitting}
                 className="group flex w-full items-center justify-center gap-2 bg-ink px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-paper transition-colors duration-300 hover:bg-bottle-dark disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Registration Temporarily Unavailable
-
+                {isSubmitting ? (
+                  <>
+                    <Loader2
+                      size={16}
+                      className="animate-spin"
+                    />
+                    Creating Account...
+                  </>
+                ) : (
+                  "Create Account"
+                )}
               </button>
+
             </form>
 
             <div className="my-7 flex items-center gap-4">
               <div className="h-px flex-1 bg-line" />
+
               <span className="text-xs font-medium uppercase tracking-wider text-ink/40">
                 Already a member?
               </span>
+
               <div className="h-px flex-1 bg-line" />
             </div>
 
@@ -394,11 +577,13 @@ const Signup = () => {
             </Link>
 
             <p className="mt-7 text-center text-xs leading-5 text-ink/40">
-              By creating an account, you agree to Ziveline's terms and privacy
-              policy.
+              By creating an account, you agree to Ziveline&apos;s
+              Terms & Conditions and Privacy Policy.
             </p>
+
           </div>
         </div>
+
       </div>
     </div>
   );
