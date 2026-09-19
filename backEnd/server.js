@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import helmet from "helmet";
 
 import connectDB from "./config/db.js";
+
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -35,7 +36,10 @@ app.use(
 
         scriptSrc: ["'self'"],
 
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+        ],
 
         imgSrc: [
           "'self'",
@@ -45,15 +49,17 @@ app.use(
           "http://localhost:5000",
         ],
 
-        fontSrc: ["'self'", "data:", "https:"],
+        fontSrc: [
+          "'self'",
+          "data:",
+          "https:",
+        ],
 
         connectSrc: [
           "'self'",
           "http://localhost:5000",
           "http://localhost:5173",
-          "https://www.ziveline.com",
-          "https://ziveline.com",
-          "https://api.ziveline.com",
+          "http://localhost:3000",
         ],
 
         objectSrc: ["'none'"],
@@ -106,22 +112,29 @@ app.use((req, res, next) => {
    CORS
 ========================================= */
 
+/*
+  Local development origins.
+
+  Production ACV Plus domains will be
+  added here when the website is deployed.
+*/
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://ziveline.com",
-  "https://www.ziveline.com",
 ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
       /*
-       * Allow requests without an Origin header.
-       * Examples:
-       * Postman, server-to-server requests,
-       * health checks and direct browser navigation.
-       */
+        Allow requests without an Origin header.
+
+        Examples:
+        Postman
+        Server-to-server requests
+        Health checks
+        Direct browser requests
+      */
       if (!origin) {
         return callback(null, true);
       }
@@ -159,31 +172,38 @@ app.use(
 
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 /* =========================================
-   STATIC UPLOADS
+   STATIC PRODUCT UPLOADS
 ========================================= */
 
 app.use(
   "/uploads",
-  express.static(path.join(__dirname, "uploads"), {
-    setHeaders: (res) => {
-      /*
-       * Product images are intentionally allowed
-       * to load from the Ziveline frontend domain.
-       */
-      res.setHeader(
-        "Cross-Origin-Resource-Policy",
-        "cross-origin"
-      );
+  express.static(
+    path.join(__dirname, "uploads"),
+    {
+      setHeaders: (res) => {
+        /*
+          Product images are allowed to load
+          from the ACV Plus frontend.
+        */
+        res.setHeader(
+          "Cross-Origin-Resource-Policy",
+          "cross-origin"
+        );
 
-      res.setHeader(
-        "X-Content-Type-Options",
-        "nosniff"
-      );
-    },
-  })
+        res.setHeader(
+          "X-Content-Type-Options",
+          "nosniff"
+        );
+      },
+    }
+  )
 );
 
 /* =========================================
@@ -193,27 +213,42 @@ app.use(
 connectDB();
 
 /* =========================================
-   ROUTES
+   API ROUTES
 ========================================= */
 
-app.use("/api/contact", contactRoutes);
+app.use(
+  "/api/contact",
+  contactRoutes
+);
 
-app.use("/api/auth", authRoutes);
+app.use(
+  "/api/auth",
+  authRoutes
+);
 
-app.use("/api/users", userRoutes);
+app.use(
+  "/api/users",
+  userRoutes
+);
 
-app.use("/api/products", productRoutes);
+app.use(
+  "/api/products",
+  productRoutes
+);
 
-app.use("/api/orders", orderRoutes);
+app.use(
+  "/api/orders",
+  orderRoutes
+);
 
 /* =========================================
-   HOME ROUTE
+   HOME / HEALTH ROUTE
 ========================================= */
 
 app.get("/", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
-    message: "Ziveline Backend is running",
+    message: "ACV Plus Backend is running",
   });
 });
 
@@ -233,8 +268,14 @@ app.use((req, res) => {
 ========================================= */
 
 app.use((error, req, res, next) => {
-  console.error("Server Error:", error.message);
+  console.error(
+    "ACV Plus Server Error:",
+    error.message
+  );
 
+  /*
+    CORS Error
+  */
   if (error.message === "Not allowed by CORS") {
     return res.status(403).json({
       success: false,
@@ -242,23 +283,52 @@ app.use((error, req, res, next) => {
     });
   }
 
-  res.status(error.status || 500).json({
-    success: false,
-    message:
-      process.env.NODE_ENV === "production"
-        ? "Internal server error"
-        : error.message || "Internal server error",
-  });
+  /*
+    Multer File Size Error
+  */
+  if (error.code === "LIMIT_FILE_SIZE") {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Each product image must be 5 MB or smaller.",
+    });
+  }
+
+  /*
+    Multer Maximum Files Error
+  */
+  if (error.code === "LIMIT_FILE_COUNT") {
+    return res.status(400).json({
+      success: false,
+      message:
+        "A maximum of 4 product images is allowed.",
+    });
+  }
+
+  /*
+    General Server Error
+  */
+  return res
+    .status(error.status || 500)
+    .json({
+      success: false,
+      message:
+        process.env.NODE_ENV === "production"
+          ? "Internal server error"
+          : error.message ||
+            "Internal server error",
+    });
 });
 
 /* =========================================
    SERVER
 ========================================= */
 
-const PORT = process.env.PORT || 5000;
+const PORT =
+  process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(
-    `Ziveline Backend running on port ${PORT}`
+    `ACV Plus Backend running on http://localhost:${PORT}`
   );
 });

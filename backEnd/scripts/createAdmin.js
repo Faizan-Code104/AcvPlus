@@ -9,34 +9,52 @@ const createAdmin = async () => {
   try {
     console.log("Connecting to MongoDB...");
 
+    if (!process.env.MONGO_URI) {
+      throw new Error("MONGO_URI is not configured.");
+    }
+
     await mongoose.connect(process.env.MONGO_URI);
 
     console.log("MongoDB connected successfully.");
 
-    const adminName = "Ziveline Admin";
-    const adminEmail = "admin@ziveline.com";
+    /*
+      ACV PLUS ADMIN CREDENTIALS
+
+      Change these values before running
+      the script if needed.
+    */
+    const adminName = "ACV Plus Admin";
+    const adminEmail = "admin@acvplus.us";
     const adminPassword = "Admin@123456";
 
+    // Check if admin/user already exists
     const existingUser = await User.findOne({
       email: adminEmail.toLowerCase(),
     });
 
     if (existingUser) {
       if (existingUser.role === "admin") {
-        console.log("Admin account already exists.");
+        console.log("ACV Plus admin account already exists.");
       } else {
         existingUser.role = "admin";
+
         await existingUser.save();
 
-        console.log("Existing user has been promoted to admin.");
+        console.log(
+          "Existing user has been promoted to admin."
+        );
       }
 
-      await mongoose.connection.close();
-      process.exit(0);
+      return;
     }
 
-    const hashedPassword = await bcrypt.hash(adminPassword, 12);
+    // Hash admin password
+    const hashedPassword = await bcrypt.hash(
+      adminPassword,
+      12
+    );
 
+    // Create ACV Plus admin
     const admin = await User.create({
       name: adminName,
       email: adminEmail.toLowerCase(),
@@ -44,24 +62,26 @@ const createAdmin = async () => {
       role: "admin",
     });
 
-    console.log("\n=================================");
-    console.log("ADMIN CREATED SUCCESSFULLY");
+    console.log("");
+    console.log("=================================");
+    console.log("ACV PLUS ADMIN CREATED SUCCESSFULLY");
     console.log("=================================");
     console.log(`Name: ${admin.name}`);
     console.log(`Email: ${admin.email}`);
     console.log(`Role: ${admin.role}`);
-    console.log(`Password: ${adminPassword}`);
-    console.log("=================================\n");
-
-    await mongoose.connection.close();
-
-    process.exit(0);
+    console.log("=================================");
+    console.log("");
   } catch (error) {
-    console.error("\nCreate Admin Error:", error.message);
+    console.error(
+      "ACV Plus Create Admin Error:",
+      error.message
+    );
 
-    await mongoose.connection.close();
-
-    process.exit(1);
+    process.exitCode = 1;
+  } finally {
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.connection.close();
+    }
   }
 };
 

@@ -14,21 +14,54 @@ import adminMiddleware from "../middleware/adminmiddleware.js";
 const router = express.Router();
 
 /*
-  IMPORTANT:
-  Specific routes must come BEFORE /:id-style routes
+  ACV PLUS ORDER ROUTES
+
+  Important:
+  Specific routes must remain before
+  parameter-based routes.
 */
 
-router.post("/", (req, res, next) => {
-  console.log("✅ GUEST ORDER ROUTE REACHED");
-  next();
-}, createOrder);
+/*
+  CREATE ORDER
 
-router.get("/mine", authMiddleware, getMyOrders);
+  Guest checkout is allowed.
+  Authenticated users can also be associated
+  with an order when authentication is available.
+*/
+router.post("/", createOrder);
 
-router.get("/track/:orderNumber", trackOrder);
+/*
+  GET CURRENT USER'S ORDERS
+*/
+router.get(
+  "/mine",
+  authMiddleware,
+  getMyOrders
+);
 
-router.get("/", authMiddleware, adminMiddleware, getAllOrders);
+/*
+  PUBLIC ORDER TRACKING
+*/
+router.get(
+  "/track/:orderNumber",
+  trackOrder
+);
 
+/*
+  GET ALL ORDERS
+  ADMIN ONLY
+*/
+router.get(
+  "/",
+  authMiddleware,
+  adminMiddleware,
+  getAllOrders
+);
+
+/*
+  UPDATE ORDER STATUS
+  ADMIN ONLY
+*/
 router.put(
   "/:id/status",
   authMiddleware,

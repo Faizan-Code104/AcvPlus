@@ -1,19 +1,32 @@
 import User from "../models/User.js";
 
+/*
+  GET USER PROFILE
+  Returns the currently authenticated user's profile.
+*/
 export const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("-password");
+    if (!req.user?._id) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required.",
+      });
+    }
+
+    const user = await User.findById(req.user._id).select(
+      "-password"
+    );
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User not found",
+        message: "User not found.",
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: "User profile fetched successfully",
+      message: "User profile fetched successfully.",
       user: {
         id: user._id,
         name: user.name,
@@ -24,23 +37,29 @@ export const getUserProfile = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Get User Profile Error:", error);
+    console.error(
+      "ACV Plus Get User Profile Error:",
+      error.message
+    );
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Server error while fetching profile",
+      message: "Server error while fetching profile.",
     });
   }
 };
 
 /*
-  GET ALL USERS (ADMIN)
+  GET ALL USERS
+  ADMIN ONLY
 */
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find()
       .select("-password")
-      .sort({ createdAt: -1 });
+      .sort({
+        createdAt: -1,
+      });
 
     return res.status(200).json({
       success: true,
@@ -48,11 +67,14 @@ export const getAllUsers = async (req, res) => {
       users,
     });
   } catch (error) {
-    console.error("Get All Users Error:", error);
+    console.error(
+      "ACV Plus Get All Users Error:",
+      error.message
+    );
 
     return res.status(500).json({
       success: false,
-      message: error.message || "Failed to fetch users.",
+      message: "Failed to fetch users.",
     });
   }
 };

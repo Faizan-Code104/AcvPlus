@@ -1,29 +1,60 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import {
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
-  Users,
-  Menu,
-  X,
-  Search,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  BarChart3,
   Bell,
   ChevronDown,
+  LayoutDashboard,
   LogOut,
+  Menu,
+  Package,
+  Search,
   Settings,
+  ShoppingCart,
   Store,
-  BarChart3,
   User,
+  Users,
+  X,
 } from "lucide-react";
 
-import ZivelineLogo from "../Logo";
+/* =========================================================
+   ACV PLUS ADMIN LAYOUT
+========================================================= */
 
 const AdminLayout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+  const [
+    sidebarOpen,
+    setSidebarOpen,
+  ] = useState(false);
+
+  const [
+    profileOpen,
+    setProfileOpen,
+  ] = useState(false);
+
+  const [
+    searchOpen,
+    setSearchOpen,
+  ] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const profileRef = useRef(null);
+
+  /* =======================================================
+     MENU ITEMS
+  ======================================================= */
 
   const menuItems = [
     {
@@ -48,259 +79,548 @@ const AdminLayout = ({ children }) => {
     },
   ];
 
+  /* =======================================================
+     ACTIVE ROUTE
+  ======================================================= */
+
   const isActive = (path) => {
     if (path === "/admin") {
-      return location.pathname === "/admin";
+      return (
+        location.pathname === "/admin" ||
+        location.pathname ===
+          "/admin/dashboard"
+      );
     }
 
-    return location.pathname.startsWith(path);
+    return location.pathname.startsWith(
+      path
+    );
   };
 
-  const closeSidebar = () => {
+  /* =======================================================
+     CLOSE SIDEBAR ON ROUTE CHANGE
+  ======================================================= */
+
+  useEffect(() => {
     setSidebarOpen(false);
-  };
+    setProfileOpen(false);
+    setSearchOpen(false);
+  }, [location.pathname]);
+
+  /* =======================================================
+     MOBILE BODY LOCK
+  ======================================================= */
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow =
+        "hidden";
+    } else {
+      document.body.style.overflow =
+        "";
+    }
+
+    return () => {
+      document.body.style.overflow =
+        "";
+    };
+  }, [sidebarOpen]);
+
+  /* =======================================================
+     CLOSE PROFILE WHEN CLICKING OUTSIDE
+  ======================================================= */
+
+  useEffect(() => {
+    const handleOutsideClick = (
+      event
+    ) => {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(
+          event.target
+        )
+      ) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleOutsideClick
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleOutsideClick
+      );
+    };
+  }, []);
+
+  /* =======================================================
+     LOGOUT
+  ======================================================= */
 
   const handleLogout = () => {
-    console.log("Admin Logout");
+    localStorage.removeItem(
+      "acvplus-token"
+    );
+
+    localStorage.removeItem(
+      "acvplus-user"
+    );
+
+    setProfileOpen(false);
+
+    navigate("/login", {
+      replace: true,
+    });
+  };
+
+  /* =======================================================
+     PAGE TITLE
+  ======================================================= */
+
+  const getPageTitle = () => {
+    if (
+      location.pathname === "/admin" ||
+      location.pathname ===
+        "/admin/dashboard"
+    ) {
+      return "Dashboard";
+    }
+
+    if (
+      location.pathname.startsWith(
+        "/admin/products"
+      )
+    ) {
+      return "Products";
+    }
+
+    if (
+      location.pathname.startsWith(
+        "/admin/orders"
+      )
+    ) {
+      return "Orders";
+    }
+
+    if (
+      location.pathname.startsWith(
+        "/admin/users"
+      )
+    ) {
+      return "Users";
+    }
+
+    return "Management Panel";
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F1EB] text-ink">
-      {/* ================= MOBILE OVERLAY ================= */}
+    <div className="min-h-screen bg-[#F1F6FF] text-[#263B63]">
+      {/* =================================================
+          MOBILE OVERLAY
+      ================================================= */}
+
       {sidebarOpen && (
         <button
           type="button"
           aria-label="Close sidebar"
-          onClick={closeSidebar}
-          className="fixed inset-0 z-40 bg-ink/50 backdrop-blur-sm lg:hidden"
+          onClick={() =>
+            setSidebarOpen(false)
+          }
+          className="fixed inset-0 z-40 bg-[#10285D]/45 backdrop-blur-[2px] lg:hidden"
         />
       )}
 
-      {/* ================= SIDEBAR ================= */}
+      {/* =================================================
+          SIDEBAR
+      ================================================= */}
+
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-line bg-paper transition-transform duration-300 lg:translate-x-0 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed inset-y-0 left-0 z-50 flex w-[270px] flex-col border-r border-[#D6E2F7] bg-white shadow-[10px_0_40px_rgba(16,40,93,0.04)] transition-transform duration-300 lg:translate-x-0 ${
+          sidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-full"
         }`}
       >
-        {/* Sidebar Header */}
-        <div className="flex h-20 items-center justify-between border-b border-line px-6">
-          <Link to="/admin" onClick={closeSidebar}>
-            <ZivelineLogo size="md" />
+        {/* ===============================================
+            SIDEBAR LOGO
+        =============================================== */}
+
+        <div className="flex h-[82px] items-center justify-between border-b border-[#D6E2F7] px-6">
+          <Link
+            to="/admin"
+            onClick={() =>
+              setSidebarOpen(false)
+            }
+            aria-label="ACV Plus Admin"
+            className="flex items-center"
+          >
+            <img
+              src="/logo.png"
+              alt="ACV Plus"
+              className="h-[48px] w-auto max-w-[180px] object-contain"
+            />
           </Link>
 
           <button
             type="button"
-            onClick={closeSidebar}
-            className="flex h-9 w-9 items-center justify-center text-ink/60 transition-colors hover:bg-[#F4F1EB] hover:text-ink lg:hidden"
+            aria-label="Close sidebar"
+            onClick={() =>
+              setSidebarOpen(false)
+            }
+            className="flex h-9 w-9 items-center justify-center rounded-full text-[#263B63]/60 transition-all hover:bg-[#E8F1FF] hover:text-[#183A7A] lg:hidden"
           >
-            <X size={20} />
+            <X
+              size={19}
+              strokeWidth={1.8}
+            />
           </button>
         </div>
 
-        {/* Admin Label */}
-        <div className="px-6 pt-7">
-          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-ink/40">
-            Administration
-          </p>
+        {/* ===============================================
+            ADMIN LABEL
+        =============================================== */}
+
+        <div className="px-6 pb-2 pt-7">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#E8F1FF] px-3 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#3569C8]" />
+
+            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#183A7A]">
+              Administration
+            </span>
+          </div>
         </div>
 
-        {/* Main Menu */}
-        <nav className="flex-1 px-4 py-5">
+        {/* ===============================================
+            MAIN NAVIGATION
+        =============================================== */}
+
+        <nav className="flex-1 overflow-y-auto px-4 py-5">
+          <p className="mb-3 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#263B63]/40">
+            Main Menu
+          </p>
+
           <div className="space-y-1.5">
             {menuItems.map((item) => {
               const Icon = item.icon;
-              const active = isActive(item.path);
+              const active =
+                isActive(item.path);
 
               return (
                 <Link
                   key={item.name}
                   to={item.path}
-                  onClick={closeSidebar}
-                  className={`group flex items-center gap-3 px-4 py-3.5 text-sm font-semibold transition-all duration-200 ${
+                  onClick={() =>
+                    setSidebarOpen(false)
+                  }
+                  className={`group relative flex min-h-[48px] items-center gap-3 overflow-hidden rounded-[13px] px-4 text-[13px] font-semibold transition-all duration-200 ${
                     active
-                      ? "bg-ink text-paper"
-                      : "text-ink/60 hover:bg-[#F4F1EB] hover:text-ink"
+                      ? "bg-[#183A7A] text-white shadow-[0_8px_22px_rgba(24,58,122,0.16)]"
+                      : "text-[#263B63]/70 hover:bg-[#F1F6FF] hover:text-[#183A7A]"
                   }`}
                 >
-                  <Icon
-                    size={19}
-                    strokeWidth={active ? 2.3 : 2}
-                    className={`transition-transform duration-200 ${
-                      active ? "" : "group-hover:scale-105"
+                  <div
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] transition-colors ${
+                      active
+                        ? "bg-white/10 text-white"
+                        : "bg-[#F1F6FF] text-[#3569C8] group-hover:bg-white"
                     }`}
-                  />
+                  >
+                    <Icon
+                      size={17}
+                      strokeWidth={
+                        active ? 2.2 : 1.9
+                      }
+                    />
+                  </div>
 
-                  <span>{item.name}</span>
+                  <span>
+                    {item.name}
+                  </span>
 
                   {active && (
-                    <span className="ml-auto h-1.5 w-1.5 rounded-full bg-bottle" />
+                    <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[#AFC8FF]" />
                   )}
                 </Link>
               );
             })}
           </div>
 
-          {/* Management */}
-          <div className="mt-9">
-            <p className="mb-3 px-4 text-[10px] font-bold uppercase tracking-[0.25em] text-ink/40">
+          {/* =============================================
+              MANAGEMENT
+          ============================================= */}
+
+          <div className="mt-8">
+            <p className="mb-3 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#263B63]/40">
               Management
             </p>
 
             <div className="space-y-1.5">
               <button
                 type="button"
-                className="group flex w-full items-center gap-3 px-4 py-3.5 text-sm font-semibold text-ink/60 transition-all duration-200 hover:bg-[#F4F1EB] hover:text-ink"
+                className="group flex min-h-[48px] w-full items-center gap-3 rounded-[13px] px-4 text-[13px] font-semibold text-[#263B63]/65 transition-all hover:bg-[#F1F6FF] hover:text-[#183A7A]"
               >
-                <BarChart3
-                  size={19}
-                  className="transition-transform duration-200 group-hover:scale-105"
-                />
+                <div className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-[#F1F6FF] text-[#3569C8] transition-colors group-hover:bg-white">
+                  <BarChart3
+                    size={17}
+                    strokeWidth={1.9}
+                  />
+                </div>
+
                 Analytics
               </button>
 
               <button
                 type="button"
-                className="group flex w-full items-center gap-3 px-4 py-3.5 text-sm font-semibold text-ink/60 transition-all duration-200 hover:bg-[#F4F1EB] hover:text-ink"
+                className="group flex min-h-[48px] w-full items-center gap-3 rounded-[13px] px-4 text-[13px] font-semibold text-[#263B63]/65 transition-all hover:bg-[#F1F6FF] hover:text-[#183A7A]"
               >
-                <Settings
-                  size={19}
-                  className="transition-transform duration-200 group-hover:rotate-45"
-                />
+                <div className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-[#F1F6FF] text-[#3569C8] transition-colors group-hover:bg-white">
+                  <Settings
+                    size={17}
+                    strokeWidth={1.9}
+                    className="transition-transform duration-300 group-hover:rotate-45"
+                  />
+                </div>
+
                 Settings
               </button>
             </div>
           </div>
         </nav>
 
-        {/* Store Link */}
-        <div className="border-t border-line p-4">
+        {/* ===============================================
+            SIDEBAR BOTTOM
+        =============================================== */}
+
+        <div className="border-t border-[#D6E2F7] p-4">
           <Link
             to="/"
-            onClick={closeSidebar}
-            className="flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-ink/60 transition-all hover:bg-[#F4F1EB] hover:text-ink"
+            onClick={() =>
+              setSidebarOpen(false)
+            }
+            className="group flex min-h-[46px] items-center gap-3 rounded-[12px] px-4 text-[13px] font-semibold text-[#263B63]/65 transition-all hover:bg-[#E8F1FF] hover:text-[#183A7A]"
           >
-            <Store size={19} />
+            <Store
+              size={18}
+              strokeWidth={1.9}
+              className="text-[#3569C8]"
+            />
+
             <span>View Store</span>
           </Link>
 
-          {/* Admin Profile */}
-          <div className="mt-2 flex items-center gap-3 bg-[#F4F1EB] p-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-ink text-sm font-bold text-paper">
+          {/* ADMIN PROFILE */}
+
+          <div className="mt-3 flex items-center gap-3 rounded-[15px] border border-[#D6E2F7] bg-[#F1F6FF] p-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#183A7A] text-[13px] font-bold text-white">
               A
             </div>
 
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-ink">Admin User</p>
-              <p className="truncate text-xs text-ink/50">Administrator</p>
+              <p className="truncate text-[13px] font-bold text-[#10285D]">
+                Admin User
+              </p>
+
+              <p className="mt-0.5 truncate text-[10px] font-medium text-[#263B63]/50">
+                Administrator
+              </p>
             </div>
           </div>
         </div>
       </aside>
 
-      {/* ================= MAIN AREA ================= */}
-      <div className="lg:pl-72">
-        {/* ================= TOPBAR ================= */}
-        <header className="sticky top-0 z-30 border-b border-line bg-paper/95 backdrop-blur-xl">
-          <div className="flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
-            {/* Left */}
-            <div className="flex items-center gap-3">
+      {/* =================================================
+          MAIN AREA
+      ================================================= */}
+
+      <div className="lg:pl-[270px]">
+        {/* ===============================================
+            TOP BAR
+        =============================================== */}
+
+        <header className="sticky top-0 z-30 border-b border-[#D6E2F7] bg-white/95 backdrop-blur-xl">
+          <div className="flex h-[82px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+            {/* LEFT */}
+
+            <div className="flex min-w-0 items-center gap-3">
               <button
                 type="button"
                 aria-label="Open sidebar"
-                onClick={() => setSidebarOpen(true)}
-                className="flex h-10 w-10 items-center justify-center bg-[#F4F1EB] text-ink/70 transition-colors hover:bg-line lg:hidden"
+                onClick={() =>
+                  setSidebarOpen(true)
+                }
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[11px] border border-[#D6E2F7] bg-[#F1F6FF] text-[#183A7A] transition-all hover:bg-[#E8F1FF] lg:hidden"
               >
-                <Menu size={21} />
+                <Menu
+                  size={20}
+                  strokeWidth={1.8}
+                />
               </button>
 
-              <div className="hidden sm:block">
-                <p className="text-xs font-medium text-ink/40">
-                  Ziveline Admin
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#3569C8]">
+                  ACV Plus Admin
                 </p>
 
-                <h1 className="font-display text-xl text-ink">
-                  Management Panel
+                <h1 className="mt-1 truncate text-[20px] font-bold tracking-[-0.025em] text-[#10285D] sm:text-[22px]">
+                  {getPageTitle()}
                 </h1>
               </div>
             </div>
 
-            {/* Right */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              {/* Search */}
+            {/* RIGHT */}
+
+            <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+              {/* SEARCH */}
+
+              <div className="relative hidden xl:block">
+                <div className="flex h-[42px] w-[230px] items-center gap-2 rounded-full border border-[#D6E2F7] bg-[#F1F6FF] px-4 transition-all focus-within:border-[#AFC8FF] focus-within:bg-white">
+                  <Search
+                    size={16}
+                    strokeWidth={1.8}
+                    className="shrink-0 text-[#3569C8]"
+                  />
+
+                  <input
+                    type="text"
+                    placeholder="Search admin..."
+                    className="min-w-0 flex-1 border-0 bg-transparent text-[12px] text-[#10285D] outline-none placeholder:text-[#263B63]/40"
+                  />
+                </div>
+              </div>
+
               <button
                 type="button"
                 aria-label="Search"
-                className="flex h-10 w-10 items-center justify-center text-ink/60 transition-all hover:bg-[#F4F1EB] hover:text-ink"
+                onClick={() =>
+                  setSearchOpen(
+                    (current) => !current
+                  )
+                }
+                className="flex h-10 w-10 items-center justify-center rounded-full text-[#263B63]/60 transition-all hover:bg-[#E8F1FF] hover:text-[#183A7A] xl:hidden"
               >
-                <Search size={19} />
+                <Search
+                  size={18}
+                  strokeWidth={1.8}
+                />
               </button>
 
-              {/* Notifications */}
+              {/* NOTIFICATION */}
+
               <button
                 type="button"
                 aria-label="Notifications"
-                className="relative flex h-10 w-10 items-center justify-center text-ink/60 transition-all hover:bg-[#F4F1EB] hover:text-ink"
+                className="relative flex h-10 w-10 items-center justify-center rounded-full text-[#263B63]/60 transition-all hover:bg-[#E8F1FF] hover:text-[#183A7A]"
               >
-                <Bell size={19} />
+                <Bell
+                  size={18}
+                  strokeWidth={1.8}
+                />
 
-                <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-paper" />
+                <span className="absolute right-[9px] top-[8px] h-[7px] w-[7px] rounded-full bg-[#3569C8] ring-2 ring-white" />
               </button>
 
-              {/* Divider */}
-              <div className="hidden h-8 w-px bg-line sm:block" />
+              <div className="hidden h-8 w-px bg-[#D6E2F7] sm:block" />
 
-              {/* Profile */}
-              <div className="relative">
+              {/* PROFILE */}
+
+              <div
+                ref={profileRef}
+                className="relative"
+              >
                 <button
                   type="button"
-                  onClick={() => setProfileOpen((prev) => !prev)}
-                  className="flex items-center gap-2 p-1.5 transition-colors hover:bg-[#F4F1EB]"
+                  onClick={() =>
+                    setProfileOpen(
+                      (current) =>
+                        !current
+                    )
+                  }
+                  className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition-all hover:bg-[#F1F6FF]"
                 >
-                  <div className="flex h-9 w-9 items-center justify-center bg-ink text-xs font-bold text-paper">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#183A7A] text-[12px] font-bold text-white">
                     A
                   </div>
 
                   <div className="hidden text-left md:block">
-                    <p className="text-xs font-bold text-ink">Admin User</p>
+                    <p className="text-[11px] font-bold text-[#10285D]">
+                      Admin User
+                    </p>
 
-                    <p className="text-[10px] text-ink/50">Administrator</p>
+                    <p className="mt-0.5 text-[9px] font-medium text-[#263B63]/45">
+                      Administrator
+                    </p>
                   </div>
 
                   <ChevronDown
-                    size={15}
-                    className={`hidden text-ink/40 transition-transform md:block ${
-                      profileOpen ? "rotate-180" : ""
+                    size={14}
+                    strokeWidth={1.8}
+                    className={`hidden text-[#263B63]/45 transition-transform duration-200 md:block ${
+                      profileOpen
+                        ? "rotate-180"
+                        : ""
                     }`}
                   />
                 </button>
 
-                {/* Profile Dropdown */}
+                {/* =======================================
+                    PROFILE DROPDOWN
+                ======================================= */}
+
                 {profileOpen && (
-                  <div className="absolute right-0 top-14 w-52 border border-line bg-paper p-2 shadow-lg">
+                  <div className="absolute right-0 top-[52px] w-[220px] overflow-hidden rounded-[16px] border border-[#D6E2F7] bg-white p-2 shadow-[0_18px_45px_rgba(16,40,93,0.14)]">
+                    <div className="mb-2 rounded-[12px] bg-[#F1F6FF] px-3 py-3">
+                      <p className="text-[12px] font-bold text-[#10285D]">
+                        Admin User
+                      </p>
+
+                      <p className="mt-1 text-[10px] text-[#263B63]/50">
+                        ACV Plus
+                        Administrator
+                      </p>
+                    </div>
+
                     <button
                       type="button"
-                      className="flex w-full items-center gap-3 px-3 py-3 text-sm font-semibold text-ink/60 transition-colors hover:bg-[#F4F1EB] hover:text-ink"
+                      className="flex w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-[12px] font-semibold text-[#263B63]/70 transition-colors hover:bg-[#F1F6FF] hover:text-[#183A7A]"
                     >
-                      <User size={17} />
+                      <User
+                        size={16}
+                        strokeWidth={1.8}
+                      />
+
                       My Profile
                     </button>
 
                     <button
                       type="button"
-                      className="flex w-full items-center gap-3 px-3 py-3 text-sm font-semibold text-ink/60 transition-colors hover:bg-[#F4F1EB] hover:text-ink"
+                      className="flex w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-[12px] font-semibold text-[#263B63]/70 transition-colors hover:bg-[#F1F6FF] hover:text-[#183A7A]"
                     >
-                      <Settings size={17} />
+                      <Settings
+                        size={16}
+                        strokeWidth={1.8}
+                      />
+
                       Settings
                     </button>
 
-                    <div className="my-1 border-t border-line" />
+                    <div className="my-2 h-px bg-[#D6E2F7]" />
 
                     <button
                       type="button"
-                      onClick={handleLogout}
-                      className="flex w-full items-center gap-3 px-3 py-3 text-sm font-semibold text-red-500 transition-colors hover:bg-red-50"
+                      onClick={
+                        handleLogout
+                      }
+                      className="flex w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-[12px] font-semibold text-red-500 transition-colors hover:bg-red-50"
                     >
-                      <LogOut size={17} />
+                      <LogOut
+                        size={16}
+                        strokeWidth={1.8}
+                      />
+
                       Logout
                     </button>
                   </div>
@@ -308,11 +628,50 @@ const AdminLayout = ({ children }) => {
               </div>
             </div>
           </div>
+
+          {/* =============================================
+              MOBILE / TABLET SEARCH
+          ============================================= */}
+
+          {searchOpen && (
+            <div className="border-t border-[#D6E2F7] bg-white px-4 py-3 xl:hidden">
+              <div className="mx-auto flex h-[44px] max-w-[600px] items-center gap-2 rounded-full border border-[#D6E2F7] bg-[#F1F6FF] px-4">
+                <Search
+                  size={16}
+                  strokeWidth={1.8}
+                  className="shrink-0 text-[#3569C8]"
+                />
+
+                <input
+                  type="text"
+                  autoFocus
+                  placeholder="Search admin..."
+                  className="min-w-0 flex-1 border-0 bg-transparent text-[12px] text-[#10285D] outline-none placeholder:text-[#263B63]/40"
+                />
+
+                <button
+                  type="button"
+                  aria-label="Close search"
+                  onClick={() =>
+                    setSearchOpen(false)
+                  }
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-[#263B63]/50 hover:bg-white hover:text-[#183A7A]"
+                >
+                  <X size={15} />
+                </button>
+              </div>
+            </div>
+          )}
         </header>
 
-        {/* ================= PAGE SECTION ================= */}
-        <main className="min-h-[calc(100vh-5rem)] p-4 sm:p-6 lg:p-8">
-          <section className="mx-auto max-w-[1600px]">{children}</section>
+        {/* =================================================
+            PAGE CONTENT
+        ================================================= */}
+
+        <main className="min-h-[calc(100vh-82px)] bg-[#F1F6FF] p-4 sm:p-6 lg:p-8">
+          <section className="mx-auto max-w-[1600px]">
+            {children}
+          </section>
         </main>
       </div>
     </div>

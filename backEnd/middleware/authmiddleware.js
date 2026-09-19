@@ -1,62 +1,113 @@
-
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-const authmiddleware = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   try {
-    // Get authorization header
-    const authHeader = req.headers.authorization;
+    // ==============================
+    // Check JWT configuration
+    // ==============================
+    if (!process.env.JWT_SECRET) {
+      console.error(
+        "ACV Plus Auth Error: JWT_SECRET is not configured."
+      );
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
+      return res.status(500).json({
         success: false,
-        message: "Authentication token is required",
+        message: "Server authentication configuration error.",
       });
     }
 
+    // ==============================
+    // Get Authorization header
+    // ==============================
+    const authHeader = req.headers.authorization;
+
+    if (
+      !authHeader ||
+      !authHeader.startsWith("Bearer ")
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication token is required.",
+      });
+    }
+
+    // ==============================
     // Extract token
-    const token = authHeader.split(" ")[1];
+    // ==============================
+    const token = authHeader
+      .slice(7)
+      .trim();
 
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication token is required.",
+      });
+    }
+
+    // ==============================
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // ==============================
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
 
-    // Find user
-    const user = await User.findById(decoded.id).select("-password");
+    if (!decoded?.id) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid authentication token.",
+      });
+    }
+
+    // ==============================
+    // Find authenticated user
+    // ==============================
+    const user = await User.findById(
+      decoded.id
+    ).select("-password");
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "User not found",
+        message: "User account not found.",
       });
     }
 
-    // Attach user to request
+    // Attach authenticated user
+    // to the current request
     req.user = user;
 
-    next();
+    return next();
   } catch (error) {
-    console.error("Auth Middleware Error:", error.message);
+    console.error(
+      "ACV Plus Auth Middleware Error:",
+      error.message
+    );
 
+    // Expired JWT
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
         success: false,
-        message: "Token has expired",
+        message:
+          "Your session has expired. Please log in again.",
       });
     }
 
+    // Invalid / malformed JWT
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({
         success: false,
-        message: "Invalid token",
+        message: "Invalid authentication token.",
       });
     }
 
     return res.status(401).json({
       success: false,
-      message: "Authentication failed",
+      message: "Authentication failed.",
     });
   }
 };
 
-export default authmiddleware;
-
+export default authMiddleware;

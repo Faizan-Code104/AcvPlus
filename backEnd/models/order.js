@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+/*
+  ORDER ITEM SCHEMA
+
+  Stores a snapshot of the product information
+  at the time the ACV Plus order is placed.
+*/
 const orderItemSchema = new mongoose.Schema(
   {
     product: {
@@ -11,11 +17,13 @@ const orderItemSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
 
     image: {
       type: String,
       default: "",
+      trim: true,
     },
 
     price: {
@@ -28,48 +36,124 @@ const orderItemSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 1,
+      validate: {
+        validator: Number.isInteger,
+        message: "Quantity must be a whole number.",
+      },
     },
   },
-  { _id: false }
+  {
+    _id: false,
+  }
 );
 
+/*
+  SHIPPING ADDRESS SCHEMA
+*/
 const shippingAddressSchema = new mongoose.Schema(
   {
-    firstName: { type: String, required: true, trim: true },
-    lastName: { type: String, required: true, trim: true },
-    email: { type: String, required: true, trim: true },
-    phone: { type: String, required: true, trim: true },
-    address: { type: String, required: true, trim: true },
-    apartment: { type: String, trim: true, default: "" },
-    city: { type: String, required: true, trim: true },
-    state: { type: String, required: true, trim: true },
-    postalCode: { type: String, required: true, trim: true },
-    country: { type: String, required: true, trim: true },
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    address: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    apartment: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    city: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    state: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    postalCode: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    country: {
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
-  { _id: false }
+  {
+    _id: false,
+  }
 );
 
+/*
+  ACV PLUS ORDER SCHEMA
+*/
 const orderSchema = new mongoose.Schema(
   {
     orderNumber: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      uppercase: true,
+      index: true,
     },
 
-   user: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "User",
-  required: false,
-  default: null,
-},
+    /*
+      Optional user reference.
+
+      This allows both authenticated orders
+      and guest checkout orders.
+    */
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+      default: null,
+    },
 
     items: {
       type: [orderItemSchema],
       required: true,
       validate: {
-        validator: (value) => Array.isArray(value) && value.length > 0,
-        message: "An order must have at least one item.",
+        validator: (value) =>
+          Array.isArray(value) && value.length > 0,
+
+        message:
+          "An order must have at least one item.",
       },
     },
 
@@ -78,10 +162,44 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
+    /*
+      Payment method is intentionally not
+      hard-coded to COD.
+
+      Once the ACV Plus payment gateway is
+      finalized, its actual payment method
+      can be stored here.
+    */
     paymentMethod: {
       type: String,
-      enum: ["COD"],
-      default: "COD",
+      trim: true,
+      default: "",
+    },
+
+    /*
+      Optional payment reference returned
+      by the future payment provider.
+    */
+    paymentReference: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    /*
+      Payment status is separate from
+      fulfillment/order status.
+    */
+    paymentStatus: {
+      type: String,
+      enum: [
+        "Pending",
+        "Paid",
+        "Failed",
+        "Refunded",
+        "Partially Refunded",
+      ],
+      default: "Pending",
     },
 
     subtotal: {
@@ -110,6 +228,9 @@ const orderSchema = new mongoose.Schema(
       min: 0,
     },
 
+    /*
+      Fulfillment / order status
+    */
     status: {
       type: String,
       enum: [

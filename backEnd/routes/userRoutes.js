@@ -1,14 +1,45 @@
 import express from "express";
-import { getUserProfile, getAllUsers } from "../Controllers/usercontroller.js";
+
+import {
+  getUserProfile,
+  getAllUsers,
+} from "../Controllers/usercontroller.js";
+
 import authMiddleware from "../middleware/authmiddleware.js";
 import adminMiddleware from "../middleware/adminmiddleware.js";
 
 const router = express.Router();
 
-// Protected User Profile Route
-router.get("/profile", authMiddleware, getUserProfile);
+/*
+  ========================================
+  ACV PLUS USER ROUTES
+  ========================================
+*/
 
-// Admin — list all users
-router.get("/", authMiddleware, adminMiddleware, getAllUsers);
+/*
+  GET CURRENT USER PROFILE
+
+  Protected route.
+  User must be logged in.
+*/
+router.get(
+  "/profile",
+  authMiddleware,
+  getUserProfile
+);
+
+/*
+  GET ALL USERS
+
+  Admin only.
+  User must be authenticated
+  and have the "admin" role.
+*/
+router.get(
+  "/",
+  authMiddleware,
+  adminMiddleware,
+  getAllUsers
+);
 
 export default router;

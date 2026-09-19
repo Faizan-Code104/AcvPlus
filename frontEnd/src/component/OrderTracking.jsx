@@ -35,10 +35,7 @@ const OrderTracking = () => {
   const getImageUrl = (image) => {
     if (!image) return "";
 
-    if (
-      image.startsWith("http://") ||
-      image.startsWith("https://")
-    ) {
+    if (image.startsWith("http://") || image.startsWith("https://")) {
       return image;
     }
 
@@ -82,9 +79,7 @@ const OrderTracking = () => {
       setLoading(true);
 
       const response = await fetch(
-        `${API_BASE_URL}/api/orders/track/${encodeURIComponent(
-          value
-        )}`
+        `${API_BASE_URL}/api/orders/track/${encodeURIComponent(value)}`,
       );
 
       let data = {};
@@ -98,7 +93,7 @@ const OrderTracking = () => {
       if (!response.ok) {
         throw new Error(
           data?.message ||
-            "We couldn't find an order with this number. Please check and try again."
+            "We couldn't find an order with this number. Please check and try again.",
         );
       }
 
@@ -106,7 +101,7 @@ const OrderTracking = () => {
     } catch (fetchError) {
       setError(
         fetchError?.message ||
-          "Unable to retrieve this order right now. Please try again."
+          "Unable to retrieve this order right now. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -130,7 +125,7 @@ const OrderTracking = () => {
 
   const handleContactSupport = () => {
     const subject = encodeURIComponent(
-      `Order Support - ${order?.orderNumber || ""}`
+      `Order Support - ${order?.orderNumber || ""}`,
     );
 
     window.location.href = `mailto:info@ziveline.com?subject=${subject}`;
@@ -139,9 +134,7 @@ const OrderTracking = () => {
   const isCancelled = order?.status === "Cancelled";
 
   const currentStepIndex = order
-    ? STATUS_STEPS.findIndex(
-        (step) => step.key === order.status
-      )
+    ? STATUS_STEPS.findIndex((step) => step.key === order.status)
     : -1;
 
   return (
@@ -171,8 +164,7 @@ const OrderTracking = () => {
             </h1>
 
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-paper/70 sm:text-base">
-              Enter your order number to see its current
-              status.
+              Enter your order number to see its current status.
             </p>
           </div>
         </div>
@@ -220,10 +212,7 @@ const OrderTracking = () => {
               >
                 {loading ? (
                   <>
-                    <Loader2
-                      size={18}
-                      className="animate-spin"
-                    />
+                    <Loader2 size={18} className="animate-spin" />
                     Searching...
                   </>
                 ) : (
@@ -236,15 +225,12 @@ const OrderTracking = () => {
             </div>
 
             {error && (
-              <p className="mt-3 text-sm font-semibold text-red-600">
-                {error}
-              </p>
+              <p className="mt-3 text-sm font-semibold text-red-600">{error}</p>
             )}
 
             <p className="mt-4 text-xs leading-5 text-ink/40">
-              If you have an existing order, enter the
-              order number provided with your order
-              confirmation.
+              If you have an existing order, enter the order number provided
+              with your order confirmation.
             </p>
           </form>
         </div>
@@ -278,8 +264,8 @@ const OrderTracking = () => {
                     {isCancelled
                       ? "This order was cancelled"
                       : order.status === "Delivered"
-                      ? "Your order has been delivered"
-                      : "Your order is in progress"}
+                        ? "Your order has been delivered"
+                        : "Your order is in progress"}
                   </h2>
 
                   <p className="mt-2 text-sm leading-6 text-ink/60">
@@ -306,11 +292,7 @@ const OrderTracking = () => {
                       className="flex h-9 w-9 shrink-0 items-center justify-center bg-paper text-ink/60 transition hover:bg-ink hover:text-paper"
                       aria-label="Copy order number"
                     >
-                      {copied ? (
-                        <Check size={16} />
-                      ) : (
-                        <Copy size={16} />
-                      )}
+                      {copied ? <Check size={16} /> : <Copy size={16} />}
                     </button>
                   </div>
 
@@ -352,9 +334,7 @@ const OrderTracking = () => {
                   </p>
 
                   <p className="mt-1 text-sm font-bold text-ink">
-                    {getDestination(
-                      order.shippingAddress
-                    )}
+                    {getDestination(order.shippingAddress)}
                   </p>
                 </div>
               </div>
@@ -404,9 +384,8 @@ const OrderTracking = () => {
                       </h4>
 
                       <p className="mt-1 text-sm leading-6 text-red-600">
-                        This order was cancelled and will
-                        not be delivered. Contact support
-                        if you believe this is a mistake.
+                        This order was cancelled and will not be delivered.
+                        Contact support if you believe this is a mistake.
                       </p>
                     </div>
                   </div>
@@ -414,27 +393,18 @@ const OrderTracking = () => {
                   <div className="relative">
                     {STATUS_STEPS.map((step, index) => {
                       const Icon = step.icon;
-                      const isLast =
-                        index ===
-                        STATUS_STEPS.length - 1;
+                      const isLast = index === STATUS_STEPS.length - 1;
 
-                      const completed =
-                        index <= currentStepIndex;
+                      const completed = index <= currentStepIndex;
 
-                      const isCurrent =
-                        index === currentStepIndex;
+                      const isCurrent = index === currentStepIndex;
 
                       return (
-                        <div
-                          key={step.key}
-                          className="relative flex gap-5"
-                        >
+                        <div key={step.key} className="relative flex gap-5">
                           {!isLast && (
                             <div
                               className={`absolute left-[22px] top-12 h-[calc(100%-24px)] w-px ${
-                                completed
-                                  ? "bg-ink"
-                                  : "bg-line"
+                                completed ? "bg-ink" : "bg-line"
                               }`}
                             />
                           )}
@@ -444,18 +414,14 @@ const OrderTracking = () => {
                               isCurrent
                                 ? "bg-bottle text-paper"
                                 : completed
-                                ? "bg-ink text-paper"
-                                : "bg-[#F4F1EB] text-ink/40"
+                                  ? "bg-ink text-paper"
+                                  : "bg-[#F4F1EB] text-ink/40"
                             }`}
                           >
                             <Icon size={17} />
                           </div>
 
-                          <div
-                            className={`flex-1 ${
-                              !isLast ? "pb-9" : ""
-                            }`}
-                          >
+                          <div className={`flex-1 ${!isLast ? "pb-9" : ""}`}>
                             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                               <div className="flex items-center gap-2">
                                 <h4
@@ -463,8 +429,8 @@ const OrderTracking = () => {
                                     isCurrent
                                       ? "text-ink"
                                       : completed
-                                      ? "text-ink/80"
-                                      : "text-ink/40"
+                                        ? "text-ink/80"
+                                        : "text-ink/40"
                                   }`}
                                 >
                                   {step.title}
@@ -479,32 +445,23 @@ const OrderTracking = () => {
 
                               {index === 0 && (
                                 <span className="text-xs font-semibold text-ink/40">
-                                  {formatDateTime(
-                                    order.createdAt
-                                  )}
+                                  {formatDateTime(order.createdAt)}
                                 </span>
                               )}
 
-                              {isCurrent &&
-                                index !== 0 && (
-                                  <span className="text-xs font-semibold text-ink/40">
-                                    {formatDateTime(
-                                      order.updatedAt
-                                    )}
-                                  </span>
-                                )}
+                              {isCurrent && index !== 0 && (
+                                <span className="text-xs font-semibold text-ink/40">
+                                  {formatDateTime(order.updatedAt)}
+                                </span>
+                              )}
                             </div>
 
                             <p
                               className={`mt-1 max-w-xl text-sm leading-6 ${
-                                completed
-                                  ? "text-ink/60"
-                                  : "text-ink/40"
+                                completed ? "text-ink/60" : "text-ink/40"
                               }`}
                             >
-                              {completed
-                                ? "Completed"
-                                : "Not reached yet"}
+                              {completed ? "Completed" : "Not reached yet"}
                             </p>
                           </div>
                         </div>
@@ -536,59 +493,47 @@ const OrderTracking = () => {
                 </div>
 
                 <div className="mt-6 space-y-4">
-                  {(order.items || []).map(
-                    (item, index) => (
-                      <div
-                        key={`${item.product}-${index}`}
-                        className="flex gap-4 bg-[#F4F1EB] p-3"
-                      >
-                        {item.image ? (
-                          <img
-                            src={getImageUrl(
-                              item.image
-                            )}
-                            alt={item.name}
-                            className="h-20 w-20 shrink-0 object-cover"
-                          />
-                        ) : (
-                          <div className="flex h-20 w-20 shrink-0 items-center justify-center bg-line text-ink/40">
-                            <ImageOff size={20} />
-                          </div>
-                        )}
+                  {(order.items || []).map((item, index) => (
+                    <div
+                      key={`${item.product}-${index}`}
+                      className="flex gap-4 bg-[#F4F1EB] p-3"
+                    >
+                      {item.image ? (
+                        <img
+                          src={getImageUrl(item.image)}
+                          alt={item.name}
+                          className="h-20 w-20 shrink-0 object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-20 w-20 shrink-0 items-center justify-center bg-line text-ink/40">
+                          <ImageOff size={20} />
+                        </div>
+                      )}
 
-                        <div className="min-w-0 flex-1">
-                          <h4 className="line-clamp-2 text-sm font-bold text-ink">
-                            {item.name}
-                          </h4>
+                      <div className="min-w-0 flex-1">
+                        <h4 className="line-clamp-2 text-sm font-bold text-ink">
+                          {item.name}
+                        </h4>
 
-                          <div className="mt-2 flex items-center justify-between">
-                            <span className="text-xs font-semibold text-ink/50">
-                              Qty: {item.quantity}
-                            </span>
+                        <div className="mt-2 flex items-center justify-between">
+                          <span className="text-xs font-semibold text-ink/50">
+                            Qty: {item.quantity}
+                          </span>
 
-                            <span className="text-sm font-bold text-ink">
-                              $
-                              {Number(
-                                item.price
-                              ).toFixed(2)}
-                            </span>
-                          </div>
+                          <span className="text-sm font-bold text-ink">
+                            ${Number(item.price).toFixed(2)}
+                          </span>
                         </div>
                       </div>
-                    )
-                  )}
+                    </div>
+                  ))}
                 </div>
 
                 <div className="mt-5 flex items-center justify-between border-t border-line pt-5">
-                  <span className="text-sm font-bold text-ink/60">
-                    Total
-                  </span>
+                  <span className="text-sm font-bold text-ink/60">Total</span>
 
                   <span className="font-display text-lg text-ink">
-                    $
-                    {Number(
-                      order.totalAmount
-                    ).toFixed(2)}
+                    ${Number(order.totalAmount).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -604,8 +549,8 @@ const OrderTracking = () => {
                 </h3>
 
                 <p className="mt-2 text-sm leading-6 text-paper/70">
-                  Follow this page for the latest status
-                  available for your order.
+                  Follow this page for the latest status available for your
+                  order.
                 </p>
 
                 <div className="mt-6 flex items-center gap-2 text-sm font-bold text-paper">
@@ -629,8 +574,7 @@ const OrderTracking = () => {
                 </h3>
 
                 <p className="mt-2 text-sm text-ink/60">
-                  Our support team is here to help with
-                  your order.
+                  Our support team is here to help with your order.
                 </p>
               </div>
 
@@ -661,8 +605,7 @@ const OrderTracking = () => {
               {
                 icon: Truck,
                 title: "Follow Progress",
-                description:
-                  "See the current stage of your order.",
+                description: "See the current stage of your order.",
               },
               {
                 icon: CheckCircle2,
@@ -696,8 +639,7 @@ const OrderTracking = () => {
 
           <div className="mt-8 flex items-center justify-center gap-2 text-center text-xs font-semibold text-ink/40">
             <Clock3 size={14} />
-            Status updates as soon as our team updates
-            your order.
+            Status updates as soon as our team updates your order.
           </div>
         </div>
       )}

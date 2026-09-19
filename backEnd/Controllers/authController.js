@@ -1,21 +1,36 @@
-
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
+// ==============================
+// Register User
+// ==============================
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    // Validate required fields
+    if (!name?.trim() || !email?.trim() || !password) {
       return res.status(400).json({
         success: false,
         message: "Name, email and password are required",
       });
     }
 
+    // Basic password validation
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      });
+    }
+
+    // Normalize email
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Check existing user
     const existingUser = await User.findOne({
-      email: email.toLowerCase(),
+      email: normalizedEmail,
     });
 
     if (existingUser) {
@@ -25,16 +40,18 @@ export const registerUser = async (req, res) => {
       });
     }
 
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Create user
     const user = await User.create({
-      name,
-      email: email.toLowerCase(),
+      name: name.trim(),
+      email: normalizedEmail,
       password: hashedPassword,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "User registered successfully",
       user: {
@@ -45,30 +62,36 @@ export const registerUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Register User Error:", error);
+    console.error("Register User Error:", error.message);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Server error while registering user",
     });
   }
 };
 
+// ==============================
+// Login User
+// ==============================
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     // Validate required fields
-    if (!email || !password) {
+    if (!email?.trim() || !password) {
       return res.status(400).json({
         success: false,
         message: "Email and password are required",
       });
     }
 
+    // Normalize email
+    const normalizedEmail = email.trim().toLowerCase();
+
     // Find user
     const user = await User.findOne({
-      email: email.toLowerCase(),
+      email: normalizedEmail,
     });
 
     if (!user) {
@@ -91,6 +114,16 @@ export const loginUser = async (req, res) => {
       });
     }
 
+    // Ensure JWT secret exists
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET is not configured");
+
+      return res.status(500).json({
+        success: false,
+        message: "Server configuration error",
+      });
+    }
+
     // Generate JWT token
     const token = jwt.sign(
       {
@@ -103,8 +136,7 @@ export const loginUser = async (req, res) => {
       }
     );
 
-    // Send response
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Login successful",
       token,
@@ -116,12 +148,11 @@ export const loginUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login User Error:", error);
+    console.error("Login User Error:", error.message);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Server error while logging in",
     });
   }
 };
-

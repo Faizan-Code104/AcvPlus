@@ -1,676 +1,840 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, FileText } from "lucide-react";
+import {
+  ArrowRight,
+  FileText,
+  Check,
+  ShoppingBag,
+  CreditCard,
+  Truck,
+  RotateCcw,
+  ShieldCheck,
+  UserRound,
+  Scale,
+  ExternalLink,
+  LockKeyhole,
+  Mail,
+  MapPin,
+  ChevronRight,
+} from "lucide-react";
+
+/* =========================================================
+   ACV PLUS BUSINESS INFORMATION
+========================================================= */
 
 const BUSINESS_INFO = {
-  businessName: "Ziveline LLC",
-  address: "2125 Strawberry Rd, Pasadena, TX 77502",
-  phoneDisplay: "+1 (832) 285-3511",
-  phoneHref: "+18322853511",
-  email: "info@ziveline.com",
-  businessDays: "Monday – Friday",
-  supportHours: "9:00 AM – 5:00 PM Central Time",
+  brand: "ACV Plus",
+  website: "acvplus.us",
+  email: "Support@acvplus.us",
+  address: "4808 Fairmont Pkwy, Pasadena, TX 77505",
+};
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+const navigation = [
+  { number: "01", label: "General Use", id: "general-use" },
+  { number: "02", label: "Products", id: "products" },
+  { number: "03", label: "Orders & Payments", id: "orders" },
+  { number: "04", label: "Shipping & Delivery", id: "shipping" },
+  { number: "05", label: "Returns & Refunds", id: "returns" },
+  { number: "06", label: "Intellectual Property", id: "intellectual-property" },
+  { number: "07", label: "User Responsibilities", id: "responsibilities" },
+  { number: "08", label: "Limitation of Liability", id: "liability" },
+  { number: "09", label: "Third-Party Links", id: "third-party" },
+  { number: "10", label: "Privacy", id: "privacy" },
+  { number: "11", label: "Contact", id: "contact" },
+];
+
+/* =========================================================
+   SMALL REUSABLE BULLET
+========================================================= */
+
+const PolicyBullet = ({ children }) => {
+  return (
+    <li className="flex items-start gap-3">
+      <span className="mt-[5px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-[#E8F1FF] text-[#183A7A]">
+        <Check size={10} strokeWidth={2.5} />
+      </span>
+
+      <span className="text-[14px] leading-7 text-[#263B63]/70 sm:text-[15px]">
+        {children}
+      </span>
+    </li>
+  );
+};
+
+/* =========================================================
+   SECTION LABEL
+========================================================= */
+
+const SectionHeading = ({ number, title, eyebrow, icon: Icon }) => {
+  return (
+    <div className="mb-7">
+      <div className="flex items-center gap-3">
+        <span className="text-[10px] font-bold tracking-[0.18em] text-[#3569C8]">
+          {number}
+        </span>
+
+        <span className="h-px w-8 bg-[#C5D7FF]" />
+
+        <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#3569C8]">
+          {eyebrow}
+        </span>
+      </div>
+
+      <div className="mt-4 flex items-start gap-4">
+        {Icon && (
+          <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E8F1FF] text-[#183A7A]">
+            <Icon size={18} strokeWidth={1.6} />
+          </div>
+        )}
+
+        <h2 className="font-serif text-[29px] font-semibold leading-tight tracking-[-0.025em] text-[#10285D] sm:text-[34px]">
+          {title}
+        </h2>
+      </div>
+    </div>
+  );
 };
 
 const TermsAndConditions = () => {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-paper text-ink">
-      {/* HERO */}
-      <section className="border-b border-line bg-ink px-4 py-14 text-center sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-        <div className="mx-auto max-w-4xl">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center bg-paper text-ink">
-            <FileText size={24} aria-hidden="true" />
+    <div className="min-h-screen overflow-x-hidden bg-white text-[#263B63]">
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
+      <section className="relative overflow-hidden bg-[#F4F8FE]">
+        {/* decorative background */}
+        <div className="pointer-events-none absolute -right-[170px] -top-[240px] h-[620px] w-[620px] rounded-full border-[105px] border-[#E4EFFC]" />
+
+        <div className="pointer-events-none absolute left-[8%] top-[90px] h-14 w-14 rounded-full border border-[#C5D7FF]" />
+
+        <div className="relative mx-auto max-w-[1200px] px-5 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+            {/* LEFT */}
+
+            <div className="max-w-[680px]">
+              <div className="flex items-center gap-3">
+                <span className="h-px w-9 bg-[#3569C8]" />
+
+                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#3569C8]">
+                  Legal Information
+                </p>
+              </div>
+
+              <h1 className="mt-5 font-serif text-[45px] font-semibold leading-[1.02] tracking-[-0.04em] text-[#10285D] sm:text-[58px] lg:text-[68px]">
+                Terms &
+                <br />
+                Conditions
+              </h1>
+
+              <p className="mt-6 max-w-[620px] text-sm leading-7 text-[#263B63]/70 sm:text-[15px]">
+                Welcome to ACV Plus. By accessing or using our website, you
+                agree to comply with and be bound by these Terms &amp;
+                Conditions. Please read them carefully before using our website
+                or purchasing our products.
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+                <div>
+                  <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#3569C8]">
+                    Website
+                  </p>
+
+                  <p className="mt-1 text-xs font-semibold text-[#10285D]">
+                    acvplus.us
+                  </p>
+                </div>
+
+                <div className="border-l border-[#C5D7FF] pl-8">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#3569C8]">
+                    Sections
+                  </p>
+
+                  <p className="mt-1 text-xs font-semibold text-[#10285D]">
+                    11 Terms
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT VISUAL */}
+
+            <div className="relative hidden min-h-[330px] lg:flex lg:items-center lg:justify-center">
+              <div className="absolute h-[320px] w-[320px] rounded-full border border-[#C5D7FF]" />
+
+              <div className="absolute h-[245px] w-[245px] rounded-full bg-white" />
+
+              <div className="relative flex h-[135px] w-[135px] items-center justify-center rounded-full bg-[#183A7A] shadow-[0_24px_60px_rgba(24,58,122,0.14)]">
+                <FileText size={46} strokeWidth={1.15} className="text-white" />
+              </div>
+            </div>
           </div>
-
-          <p className="mt-6 text-xs font-bold uppercase tracking-[0.25em] text-paper/60">
-            Ziveline
-          </p>
-
-          <h1 className="mt-3 font-display text-4xl leading-tight text-paper sm:text-5xl">
-            Terms &amp; Conditions
-          </h1>
-
-          <p className="mt-4 text-sm text-paper/60">
-            Last updated: September 11, 2026
-          </p>
         </div>
       </section>
 
-      {/* TERMS CONTENT */}
-      <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-        <div className="mx-auto max-w-3xl space-y-10 text-sm leading-7 text-ink/60">
-          <p>
-            These Terms and Conditions (“Terms”) govern your access to and use
-            of https://www.ziveline.com and any purchase from Ziveline LLC. By
-            using our website or placing an order, you agree to these Terms.
-          </p>
+      {/* =====================================================
+          INTRO STRIP
+      ===================================================== */}
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              1. Business Operator
-            </h2>
+      <section className="border-y border-[#D6E2F7] bg-white">
+        <div className="mx-auto grid max-w-[1200px] md:grid-cols-3">
+          <div className="flex items-center gap-4 border-b border-[#D6E2F7] px-5 py-6 md:border-b-0 md:border-r sm:px-8">
+            <ShoppingBag
+              size={21}
+              strokeWidth={1.5}
+              className="shrink-0 text-[#183A7A]"
+            />
 
-            <p className="mt-3">
-              The website and Ziveline brand are operated by:
-            </p>
-
-            <div className="mt-3 space-y-1">
-              <p>{BUSINESS_INFO.businessName}</p>
-              <p>2125 Strawberry Rd</p>
-              <p>Pasadena, TX 77502</p>
-              <p>United States</p>
-
-              <p className="pt-2">
-                Email:{" "}
-                <a
-                  href={`mailto:${BUSINESS_INFO.email}`}
-                  className="font-bold text-ink underline underline-offset-4"
-                >
-                  {BUSINESS_INFO.email}
-                </a>
+            <div>
+              <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#3569C8]">
+                Products
               </p>
 
-              <p>
-                Phone:{" "}
-                <a
-                  href={`tel:${BUSINESS_INFO.phoneHref}`}
-                  className="font-bold text-ink underline underline-offset-4"
-                >
-                  {BUSINESS_INFO.phoneDisplay}
-                </a>
+              <p className="mt-1 text-xs font-semibold text-[#10285D]">
+                Wellness &amp; Supplements
               </p>
             </div>
-          </section>
+          </div>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              2. Eligibility
-            </h2>
+          <div className="flex items-center gap-4 border-b border-[#D6E2F7] px-5 py-6 md:border-b-0 md:border-r sm:px-8">
+            <ShieldCheck
+              size={21}
+              strokeWidth={1.5}
+              className="shrink-0 text-[#183A7A]"
+            />
 
-            <p className="mt-3">
-              You must be at least 18 years old or have the involvement and
-              permission of a parent or legal guardian to use this website or
-              place an order.
+            <div>
+              <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#3569C8]">
+                Your Use
+              </p>
+
+              <p className="mt-1 text-xs font-semibold text-[#10285D]">
+                Lawful &amp; Responsible
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 px-5 py-6 sm:px-8">
+            <Scale
+              size={21}
+              strokeWidth={1.5}
+              className="shrink-0 text-[#183A7A]"
+            />
+
+            <div>
+              <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#3569C8]">
+                Agreement
+              </p>
+
+              <p className="mt-1 text-xs font-semibold text-[#10285D]">
+                Please Read Carefully
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          MAIN LEGAL LAYOUT
+      ===================================================== */}
+
+      <section className="bg-white px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mx-auto grid max-w-[1120px] gap-12 lg:grid-cols-[245px_1fr] lg:gap-16">
+          {/* =================================================
+              LEFT SIDE NAVIGATION
+          ================================================= */}
+
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <p className="mb-5 text-[9px] font-bold uppercase tracking-[0.22em] text-[#3569C8]">
+              In These Terms
             </p>
 
-            <p className="mt-3">
-              You agree to provide accurate, current, and complete information.
-            </p>
-          </section>
+            <nav className="border-t border-[#D6E2F7]">
+              {navigation.map((item) => (
+                <a
+                  key={item.number}
+                  href={`#${item.id}`}
+                  className="group flex items-center gap-3 border-b border-[#D6E2F7] py-3.5"
+                >
+                  <span className="w-6 text-[9px] font-bold text-[#3569C8]/60 transition-colors group-hover:text-[#3569C8]">
+                    {item.number}
+                  </span>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              3. Products
-            </h2>
+                  <span className="flex-1 text-[11px] font-semibold text-[#263B63]/60 transition-colors group-hover:text-[#10285D]">
+                    {item.label}
+                  </span>
 
-            <p className="mt-3">
-              Ziveline sells handbags, tote bags, crossbody bags, shoulder
-              bags, and related fashion accessories.
-            </p>
+                  <ChevronRight
+                    size={13}
+                    className="text-[#C5D7FF] transition-transform group-hover:translate-x-1 group-hover:text-[#3569C8]"
+                  />
+                </a>
+              ))}
+            </nav>
 
-            <p className="mt-3">
-              We make reasonable efforts to display product descriptions,
-              materials, dimensions, colors, availability, and images
-              accurately. Colors and appearance may vary slightly depending on
-              lighting, photography, manufacturing variations, and
-              device-screen settings.
-            </p>
+            <div className="mt-7 rounded-[18px] bg-[#F1F6FF] p-5">
+              <p className="font-serif text-lg font-semibold text-[#10285D]">
+                Need assistance?
+              </p>
 
-            <p className="mt-3">
-              Product images are illustrative of the item offered. Customers
-              should review the complete product description before purchasing.
-            </p>
-          </section>
+              <p className="mt-2 text-[11px] leading-5 text-[#263B63]/60">
+                Our support team can help with questions about our policies.
+              </p>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              4. Prices and Currency
-            </h2>
+              <Link
+                to="/contact"
+                className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#183A7A]"
+              >
+                Contact Us
+                <ArrowRight size={13} />
+              </Link>
+            </div>
+          </aside>
 
-            <p className="mt-3">
-              All prices are displayed and charged in United States dollars
-              unless clearly stated otherwise.
-            </p>
+          {/* =================================================
+              RIGHT CONTENT
+          ================================================= */}
 
-            <p className="mt-3">
-              Applicable sales tax will be calculated and disclosed during
-              checkout where required.
-            </p>
+          <main className="min-w-0">
+            {/* ================= 01 ================= */}
 
-            <p className="mt-3">
-              We may correct accidental pricing, description, inventory, or
-              typographical errors. If an error affects an order, we will
-              contact the customer before fulfillment and provide the option
-              to accept the correction or receive a cancellation and full
-              refund.
-            </p>
-          </section>
+            <section
+              id="general-use"
+              className="scroll-mt-28 border-b border-[#D6E2F7] pb-12"
+            >
+              <SectionHeading
+                number="01"
+                eyebrow="Website Access"
+                title="General Use"
+                icon={UserRound}
+              />
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              5. Online Orders
-            </h2>
+              <ul className="space-y-4">
+                <PolicyBullet>
+                  By using this website, you confirm that you are at least 18
+                  years of age or accessing the website under appropriate
+                  supervision.
+                </PolicyBullet>
 
-            <p className="mt-3">
-              Submitting an order is an offer to purchase. An order is not
-              accepted until:
-            </p>
+                <PolicyBullet>
+                  You agree to use this website only for lawful purposes.
+                </PolicyBullet>
 
-            <ul className="mt-3 list-disc space-y-2 pl-5">
-              <li>Required payment is successfully authorized.</li>
-              <li>We confirm product availability.</li>
-              <li>We issue an order confirmation.</li>
-            </ul>
+                <PolicyBullet>
+                  We reserve the right to update, modify, or change these Terms
+                  &amp; Conditions at any time without prior notice.
+                </PolicyBullet>
+              </ul>
+            </section>
 
-            <p className="mt-3">
-              We may decline or cancel an order because of inventory errors,
-              inaccurate information, suspected fraud, payment failure,
-              delivery restrictions, pricing errors, or legal requirements.
-            </p>
+            {/* ================= 02 ================= */}
 
-            <p className="mt-3">
-              If we cancel a paid order, the full amount collected for the
-              canceled items will be refunded to the original payment method.
-            </p>
-          </section>
+            <section
+              id="products"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <SectionHeading
+                number="02"
+                eyebrow="Our Store"
+                title="Products & Information"
+                icon={ShoppingBag}
+              />
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              6. Payment
-            </h2>
+              {/* DIFFERENT FEATURE BLOCK */}
 
-            <p className="mt-3">
-              Ziveline accepts online electronic payments only through the
-              payment methods displayed at checkout. We do not accept Cash on
-              Delivery.
-            </p>
+              <div className="mb-7 overflow-hidden rounded-[22px] bg-[#F1F6FF]">
+                <div className="grid sm:grid-cols-[1fr_auto]">
+                  <div className="p-6 sm:p-7">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#3569C8]">
+                      What We Offer
+                    </p>
 
-            <p className="mt-3">
-              Online payment processing is currently being set up. Until an
-              active payment method is displayed and payment is successfully
-              authorized, no completed purchase will be accepted through the
-              website.
-            </p>
+                    <p className="mt-3 max-w-[500px] font-serif text-[22px] font-semibold leading-8 text-[#10285D]">
+                      ACV Plus offers wellness products, dietary supplements,
+                      and related items.
+                    </p>
+                  </div>
 
-            <p className="mt-3">
-              Once activated, payments will be securely processed by an
-              authorized third-party payment provider. Ziveline does not offer
-              subscription billing or automatically recurring product charges.
-            </p>
+                  <div className="hidden min-w-[130px] items-center justify-center border-l border-[#D6E2F7] sm:flex">
+                    <ShoppingBag
+                      size={34}
+                      strokeWidth={1.3}
+                      className="text-[#183A7A]"
+                    />
+                  </div>
+                </div>
+              </div>
 
-            <p className="mt-3">
-              The exact approved billing descriptor will be disclosed at
-              checkout or in the order confirmation before live card payments
-              are accepted.
-            </p>
-          </section>
+              <ul className="space-y-4">
+                <PolicyBullet>
+                  We make reasonable efforts to ensure product descriptions,
+                  pricing, and information are accurate.
+                </PolicyBullet>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              7. Fraud Prevention
-            </h2>
+                <PolicyBullet>
+                  Errors, inaccuracies, or omissions may occasionally occur, and
+                  we reserve the right to correct them without prior notice.
+                </PolicyBullet>
 
-            <p className="mt-3">
-              We may use reasonable verification and fraud-prevention measures.
-              An order may be held, canceled, or declined if:
-            </p>
+                <PolicyBullet>
+                  Product availability may change at any time.
+                </PolicyBullet>
+              </ul>
+            </section>
 
-            <ul className="mt-3 list-disc space-y-2 pl-5">
-              <li>Billing or shipping information cannot be verified.</li>
-              <li>Payment authorization fails.</li>
-              <li>The order appears unauthorized or fraudulent.</li>
-              <li>
-                Additional verification requested from the customer is not
-                provided.
-              </li>
-              <li>
-                The transaction violates payment-network or legal requirements.
-              </li>
-            </ul>
-          </section>
+            {/* ================= 03 ================= */}
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              8. Shipping
-            </h2>
+            <section
+              id="orders"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <SectionHeading
+                number="03"
+                eyebrow="Checkout"
+                title="Orders & Payments"
+                icon={CreditCard}
+              />
 
-            <p className="mt-3">
-              Orders are generally processed within 1–2 business days.
-            </p>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="border-t-2 border-[#3569C8] bg-[#FAFCFF] p-5">
+                  <span className="font-serif text-[26px] text-[#C5D7FF]">
+                    01
+                  </span>
 
-            <p className="mt-3">
-              After processing, estimated standard delivery is 3–7 business
-              days. These periods exclude weekends, federal holidays, severe
-              weather, carrier delays, and circumstances outside our reasonable
-              control.
-            </p>
+                  <p className="mt-3 text-sm leading-6 text-[#263B63]/70">
+                    All orders are subject to acceptance and product
+                    availability.
+                  </p>
+                </div>
 
-            <p className="mt-3">
-              Free standard shipping is offered on eligible orders delivered
-              within our published U.S. shipping area.
-            </p>
+                <div className="border-t-2 border-[#3569C8] bg-[#FAFCFF] p-5">
+                  <span className="font-serif text-[26px] text-[#C5D7FF]">
+                    02
+                  </span>
 
-            <p className="mt-3">
-              Complete shipping terms are provided in our{" "}
+                  <p className="mt-3 text-sm leading-6 text-[#263B63]/70">
+                    We reserve the right to refuse or cancel any order at our
+                    discretion.
+                  </p>
+                </div>
+
+                <div className="border-t-2 border-[#3569C8] bg-[#FAFCFF] p-5">
+                  <span className="font-serif text-[26px] text-[#C5D7FF]">
+                    03
+                  </span>
+
+                  <p className="mt-3 text-sm leading-6 text-[#263B63]/70">
+                    Payment must be completed using the available payment
+                    methods during checkout.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* ================= 04 ================= */}
+
+            <section
+              id="shipping"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <SectionHeading
+                number="04"
+                eyebrow="Order Delivery"
+                title="Shipping & Delivery"
+                icon={Truck}
+              />
+
+              <ul className="space-y-4">
+                <PolicyBullet>
+                  Orders are processed and shipped according to our Shipping
+                  Policy.
+                </PolicyBullet>
+
+                <PolicyBullet>
+                  Delivery times are estimates and may vary depending on
+                  location and carrier performance.
+                </PolicyBullet>
+
+                <PolicyBullet>
+                  We are not responsible for shipping delays caused by
+                  third-party carriers or circumstances beyond our control.
+                </PolicyBullet>
+              </ul>
+
               <Link
                 to="/shipping-policy"
-                className="font-bold text-ink underline underline-offset-4"
+                className="mt-7 inline-flex items-center gap-3 rounded-full border border-[#C5D7FF] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-[#183A7A] transition-colors hover:bg-[#E8F1FF]"
               >
-                Shipping Policy
+                Read Shipping Policy
+                <ArrowRight size={13} />
               </Link>
-              .
-            </p>
-          </section>
+            </section>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              9. Order Tracking
-            </h2>
+            {/* ================= 05 ================= */}
 
-            <p className="mt-3">
-              When tracking is available, customers will receive tracking
-              information through the email address provided with the order.
-            </p>
+            <section
+              id="returns"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <div className="grid gap-8 rounded-[24px] bg-[#172D57] p-7 text-white sm:p-9 md:grid-cols-[0.7fr_1.3fr]">
+                <div>
+                  <RotateCcw
+                    size={28}
+                    strokeWidth={1.4}
+                    className="text-[#AFC8FF]"
+                  />
 
-            <p className="mt-3">
-              Tracking updates are supplied by the carrier and may take time to
-              appear after a shipping label is created.
-            </p>
-          </section>
+                  <p className="mt-6 text-[9px] font-bold uppercase tracking-[0.2em] text-[#AFC8FF]">
+                    05 · Returns
+                  </p>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              10. Cancellations and Address Changes
-            </h2>
+                  <h2 className="mt-3 font-serif text-[30px] font-semibold leading-tight">
+                    Returns &
+                    <br />
+                    Refunds
+                  </h2>
+                </div>
 
-            <p className="mt-3">
-              Customers should contact us immediately to request a cancellation
-              or shipping-address change.
-            </p>
+                <div className="md:border-l md:border-white/10 md:pl-8">
+                  <p className="text-sm leading-7 text-white/70">
+                    Returns and refunds are handled according to our Refund
+                    Policy.
+                  </p>
 
-            <p className="mt-3">
-              A cancellation or modification is available only before the order
-              has shipped. Once an order has shipped, it is governed by our
-              Return and Refund Policy.
-            </p>
+                  <p className="mt-4 text-sm leading-7 text-white/70">
+                    Customers must follow the requirements and procedures
+                    outlined in that policy.
+                  </p>
 
-            <p className="mt-3">
-              We cannot guarantee that an address can be changed after an order
-              enters fulfillment.
-            </p>
-          </section>
+                  <Link
+                    to="/return-policy"
+                    className="mt-6 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.13em] text-[#AFC8FF]"
+                  >
+                    Read Refund Policy
+                    <ArrowRight size={13} />
+                  </Link>
+                </div>
+              </div>
+            </section>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              11. Returns and Refunds
-            </h2>
+            {/* ================= 06 ================= */}
 
-            <p className="mt-3">
-              Eligible products may be returned within 30 days of confirmed
-              delivery.
-            </p>
+            <section
+              id="intellectual-property"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <SectionHeading
+                number="06"
+                eyebrow="Ownership"
+                title="Intellectual Property"
+                icon={ShieldCheck}
+              />
 
-            <p className="mt-3">
-              Returned products must generally be unused, unworn, unaltered,
-              and in their original condition with tags and original packaging.
-            </p>
+              <ul className="space-y-4">
+                <PolicyBullet>
+                  All content on this website, including text, graphics, logos,
+                  images, product descriptions, and website design, is the
+                  property of ACV Plus unless otherwise stated.
+                </PolicyBullet>
 
-            <p className="mt-3">
-              We do not offer direct product exchanges. Customers may return an
-              eligible item for a refund and place a separate order for another
-              product.
-            </p>
+                <PolicyBullet>
+                  No content may be copied, reproduced, distributed, or used
+                  without prior written permission.
+                </PolicyBullet>
+              </ul>
+            </section>
 
-            <p className="mt-3">
-              No restocking fee is charged on an eligible return.
-              Change-of-mind return shipping is the customer’s responsibility.
-              Ziveline covers reasonable return shipping for verified damaged,
-              defective, or incorrect items.
-            </p>
+            {/* ================= 07 ================= */}
 
-            <p className="mt-3">
-              Complete conditions are provided in our{" "}
-              <Link
-                to="/return-policy"
-                className="font-bold text-ink underline underline-offset-4"
-              >
-                Return and Refund Policy
-              </Link>
-              .
-            </p>
-          </section>
+            <section
+              id="responsibilities"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <SectionHeading
+                number="07"
+                eyebrow="Your Account"
+                title="User Responsibilities"
+                icon={UserRound}
+              />
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              12. Customer Accounts
-            </h2>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="border-l-2 border-[#3569C8] pl-5">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#3569C8]">
+                    Website Use
+                  </p>
 
-            <p className="mt-3">
-              Customers may be allowed to purchase as a guest or create an
-              account. You are responsible for:
-            </p>
+                  <p className="mt-3 text-sm leading-7 text-[#263B63]/70">
+                    You agree not to misuse the website or attempt unauthorized
+                    access to any part of the website.
+                  </p>
+                </div>
 
-            <ul className="mt-3 list-disc space-y-2 pl-5">
-              <li>Keeping account credentials confidential.</li>
-              <li>Providing accurate information.</li>
-              <li>Restricting unauthorized access to your device.</li>
-              <li>
-                Notifying us promptly of suspected unauthorized activity.
-              </li>
-            </ul>
+                <div className="border-l-2 border-[#C5D7FF] pl-5">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#3569C8]">
+                    Account Security
+                  </p>
 
-            <p className="mt-3">
-              We may suspend or close accounts used for fraud, abuse, unlawful
-              conduct, or violations of these Terms.
-            </p>
-          </section>
+                  <p className="mt-3 text-sm leading-7 text-[#263B63]/70">
+                    You are responsible for maintaining the confidentiality of
+                    any account information you use on our website.
+                  </p>
+                </div>
+              </div>
+            </section>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              13. Acceptable Use
-            </h2>
+            {/* ================= 08 ================= */}
 
-            <p className="mt-3">You may not:</p>
+            <section
+              id="liability"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <SectionHeading
+                number="08"
+                eyebrow="Legal"
+                title="Limitation of Liability"
+                icon={Scale}
+              />
 
-            <ul className="mt-3 list-disc space-y-2 pl-5">
-              <li>Use the website for unlawful or fraudulent activity.</li>
-              <li>Attempt unauthorized access to accounts, systems, or data.</li>
-              <li>
-                Introduce malicious code or interfere with website operation.
-              </li>
-              <li>
-                Scrape or copy website content for unauthorized commercial use.
-              </li>
-              <li>Misrepresent your identity or payment authority.</li>
-              <li>
-                Place orders using stolen or unauthorized payment credentials.
-              </li>
-              <li>Infringe intellectual-property or privacy rights.</li>
-            </ul>
-          </section>
+              <div className="relative overflow-hidden bg-[#F1F6FF] p-6 sm:p-8">
+                <div className="absolute right-0 top-0 h-24 w-24 translate-x-1/2 -translate-y-1/2 rounded-full border-[18px] border-[#E1ECFA]" />
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              14. Intellectual Property
-            </h2>
+                <p className="relative text-sm leading-7 text-[#263B63]/70 sm:text-[15px]">
+                  ACV Plus shall not be liable for any indirect, incidental,
+                  special, or consequential damages arising from the use of our
+                  website or products.
+                </p>
 
-            <p className="mt-3">
-              The Ziveline name, website design, written content, graphics,
-              logos, and original website materials are owned by or licensed to
-              Ziveline LLC and are protected by applicable intellectual-property
-              laws.
-            </p>
+                <div className="relative my-5 h-px bg-[#D6E2F7]" />
 
-            <p className="mt-3">
-              No content may be reproduced, distributed, modified, or
-              commercially exploited without written permission, except for
-              lawful personal use.
-            </p>
-          </section>
+                <p className="relative text-sm leading-7 text-[#263B63]/70 sm:text-[15px]">
+                  All products and website content are provided on an “as
+                  available” basis except where otherwise required by applicable
+                  law.
+                </p>
+              </div>
+            </section>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              15. Third-Party Services
-            </h2>
+            {/* ================= 09 ================= */}
 
-            <p className="mt-3">
-              The website may rely on third-party services for payment
-              processing, hosting, communications, shipping, tracking, or other
-              functions.
-            </p>
+            <section
+              id="third-party"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <SectionHeading
+                number="09"
+                eyebrow="External Websites"
+                title="Third-Party Links"
+                icon={ExternalLink}
+              />
 
-            <p className="mt-3">
-              We are not responsible for an independent third party’s systems
-              or policies, but we remain responsible for our obligations to
-              customers under applicable law.
-            </p>
-          </section>
+              <ul className="space-y-4">
+                <PolicyBullet>
+                  Our website may contain links to third-party websites for your
+                  convenience.
+                </PolicyBullet>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              16. Product Use and Care
-            </h2>
+                <PolicyBullet>
+                  We are not responsible for the content, policies, or practices
+                  of any third-party websites.
+                </PolicyBullet>
+              </ul>
+            </section>
 
-            <p className="mt-3">
-              Customers must follow product descriptions and care instructions.
-              Damage caused by misuse, accidents, unauthorized alterations,
-              improper cleaning, ordinary wear, or failure to follow
-              instructions is not considered a manufacturing defect.
-            </p>
+            {/* ================= 10 ================= */}
 
-            <p className="mt-3">
-              Nothing in these Terms excludes warranties or consumer rights
-              that cannot legally be excluded.
-            </p>
-          </section>
+            <section
+              id="privacy"
+              className="scroll-mt-28 border-b border-[#D6E2F7] py-12"
+            >
+              <div className="flex flex-col justify-between gap-7 rounded-[22px] border border-[#D6E2F7] bg-[#FAFCFF] p-6 sm:flex-row sm:items-center sm:p-8">
+                <div className="flex gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E8F1FF] text-[#183A7A]">
+                    <LockKeyhole size={19} strokeWidth={1.6} />
+                  </div>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              17. Website Availability
-            </h2>
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#3569C8]">
+                      10 · Privacy
+                    </p>
 
-            <p className="mt-3">
-              We may update, suspend, or restrict website functionality for
-              maintenance, security, technical, or business reasons. We do not
-              guarantee uninterrupted or error-free availability.
-            </p>
-          </section>
+                    <h2 className="mt-2 font-serif text-[27px] font-semibold text-[#10285D]">
+                      Your privacy matters.
+                    </h2>
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              18. Disclaimer
-            </h2>
+                    <p className="mt-3 max-w-[500px] text-sm leading-7 text-[#263B63]/65">
+                      Your use of this website is also governed by our Privacy
+                      Policy, which explains how we collect, use, and protect
+                      your information.
+                    </p>
+                  </div>
+                </div>
 
-            <p className="mt-3">
-              To the maximum extent permitted by law, the website and its
-              content are provided on an “as available” basis. We do not
-              guarantee that every product or website feature will always
-              remain available.
-            </p>
+                <Link
+                  to="/privacy-policy"
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#C5D7FF] text-[#183A7A] transition-colors hover:bg-[#E8F1FF]"
+                  aria-label="Read Privacy Policy"
+                >
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+            </section>
 
-            <p className="mt-3">
-              This disclaimer does not limit any non-waivable legal rights or
-              obligations relating to paid products.
-            </p>
-          </section>
+            {/* ================= 11 ================= */}
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              19. Limitation of Liability
-            </h2>
+            <section id="contact" className="scroll-mt-28 pt-12">
+              <SectionHeading
+                number="11"
+                eyebrow="Questions"
+                title="Contact Information"
+                icon={Mail}
+              />
 
-            <p className="mt-3">
-              To the maximum extent permitted by law, Ziveline LLC will not be
-              liable for indirect, incidental, special, punitive, or
-              consequential damages arising from use of the website.
-            </p>
+              <p className="max-w-[650px] text-sm leading-7 text-[#263B63]/68 sm:text-[15px]">
+                If you have any questions regarding these Terms &amp;
+                Conditions, please contact us:
+              </p>
 
-            <p className="mt-3">
-              For a claim concerning a purchased product, our aggregate
-              liability will not exceed the amount the customer paid for the
-              product giving rise to the claim, except where a greater remedy
-              is required by law.
-            </p>
-          </section>
+              <div className="mt-8 grid gap-0 overflow-hidden rounded-[22px] border border-[#D6E2F7] sm:grid-cols-2">
+                {/* EMAIL */}
 
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              20. Indemnification
-            </h2>
-
-            <p className="mt-3">
-              You agree to be responsible for losses or claims caused by your
-              unlawful use of the website, fraudulent activity, infringement
-              of another party’s rights, or material violation of these Terms.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              21. Delays Outside Our Control
-            </h2>
-
-            <p className="mt-3">
-              We are not responsible for delays caused by events reasonably
-              outside our control, including severe weather, natural disasters,
-              carrier interruptions, labor disruptions, government actions,
-              emergencies, or failures of third-party infrastructure.
-            </p>
-
-            <p className="mt-3">
-              If a material shipping delay occurs, we will provide notice and
-              available options as required by law.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              22. Governing Law and Venue
-            </h2>
-
-            <p className="mt-3">
-              These Terms are governed by the laws of the State of Texas,
-              without regard to conflict-of-law principles.
-            </p>
-
-            <p className="mt-3">
-              Subject to any consumer rights that cannot be waived, disputes
-              relating to these Terms or the website will be brought in an
-              appropriate state or federal court located in Harris County,
-              Texas.
-            </p>
-
-            <p className="mt-3">
-              Before filing a claim, the parties are encouraged to attempt
-              resolution by contacting one another in writing.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              23. Severability
-            </h2>
-
-            <p className="mt-3">
-              If any provision is determined to be unlawful or unenforceable,
-              the remaining provisions will continue in effect.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              24. No Waiver
-            </h2>
-
-            <p className="mt-3">
-              Failure to enforce a provision of these Terms does not waive the
-              right to enforce it later.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              25. Assignment
-            </h2>
-
-            <p className="mt-3">
-              Customers may not transfer their rights or obligations under
-              these Terms without our written consent. Ziveline may transfer
-              these Terms in connection with a merger, acquisition, financing,
-              reorganization, or sale of business assets.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              26. Entire Agreement
-            </h2>
-
-            <p className="mt-3">
-              These Terms and the policies linked from the website constitute
-              the entire agreement concerning website use and product
-              purchases, except for any additional terms expressly accepted
-              during checkout.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              27. Changes to These Terms
-            </h2>
-
-            <p className="mt-3">
-              We may update these Terms when our business, website, payment
-              arrangements, or legal obligations change. Updated Terms will be
-              posted with a revised “Last Updated” date.
-            </p>
-
-            <p className="mt-3">
-              Changes will not retroactively reduce rights relating to an order
-              already accepted unless permitted by law.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="font-display text-2xl text-ink">
-              28. Contact
-            </h2>
-
-            <div className="mt-3 space-y-1">
-              <p>{BUSINESS_INFO.businessName}</p>
-              <p>2125 Strawberry Rd</p>
-              <p>Pasadena, TX 77502</p>
-              <p>United States</p>
-
-              <p className="pt-2">
-                Email:{" "}
                 <a
                   href={`mailto:${BUSINESS_INFO.email}`}
-                  className="font-bold text-ink underline underline-offset-4"
+                  className="flex items-start gap-4 border-b border-[#D6E2F7] p-6 transition-colors hover:bg-[#FAFCFF] sm:border-b-0 sm:border-r"
                 >
-                  {BUSINESS_INFO.email}
-                </a>
-              </p>
+                  <Mail
+                    size={19}
+                    strokeWidth={1.5}
+                    className="mt-0.5 shrink-0 text-[#183A7A]"
+                  />
 
-              <p>
-                Phone:{" "}
-                <a
-                  href={`tel:${BUSINESS_INFO.phoneHref}`}
-                  className="font-bold text-ink underline underline-offset-4"
-                >
-                  {BUSINESS_INFO.phoneDisplay}
-                </a>
-              </p>
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#3569C8]">
+                      Email
+                    </p>
 
-              <p>
-                Support Hours: {BUSINESS_INFO.businessDays},{" "}
-                {BUSINESS_INFO.supportHours}
-              </p>
-            </div>
-          </section>
+                    <p className="mt-2 break-all text-sm font-semibold text-[#10285D]">
+                      {BUSINESS_INFO.email}
+                    </p>
+                  </div>
+                </a>
+
+                {/* ADDRESS */}
+
+                <div className="flex items-start gap-4 p-6">
+                  <MapPin
+                    size={19}
+                    strokeWidth={1.5}
+                    className="mt-0.5 shrink-0 text-[#183A7A]"
+                  />
+
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#3569C8]">
+                      Address
+                    </p>
+
+                    <p className="mt-2 text-sm font-semibold leading-6 text-[#10285D]">
+                      {BUSINESS_INFO.address}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between rounded-[14px] bg-[#F1F6FF] px-5 py-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#3569C8]">
+                  Official Website
+                </p>
+
+                <span className="text-xs font-semibold text-[#10285D]">
+                  {BUSINESS_INFO.website}
+                </span>
+              </div>
+            </section>
+          </main>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="border-t border-line px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-        <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 border border-line bg-ink p-6 text-paper sm:p-8 md:flex-row md:items-center md:justify-between md:p-10">
-          <div>
-            <h3 className="font-display text-2xl">
-              Have a question?
-            </h3>
+      {/* =====================================================
+          RELATED POLICIES
+      ===================================================== */}
 
-            <p className="mt-2 text-sm leading-6 text-paper/60">
-              Visit our contact page for assistance.
+      <section className="border-t border-[#D6E2F7] bg-[#F1F6FF] px-5 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1120px]">
+          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+            <div>
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#3569C8]">
+                Helpful Information
+              </p>
+
+              <h2 className="mt-2 font-serif text-[30px] font-semibold text-[#10285D]">
+                Related policies
+              </h2>
+            </div>
+
+            <p className="max-w-[400px] text-xs leading-6 text-[#263B63]/55">
+              Review our supporting policies for more information about orders,
+              returns, and your privacy.
             </p>
           </div>
 
-          <Link
-            to="/contact"
-            className="inline-flex min-h-12 w-full items-center justify-center gap-2 bg-paper px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-ink transition-colors hover:bg-[#EFE9DE] md:w-auto"
-          >
-            Contact Us
-            <ArrowRight size={16} aria-hidden="true" />
-          </Link>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <Link
+              to="/shipping-policy"
+              className="group flex items-center justify-between bg-white p-5"
+            >
+              <div className="flex items-center gap-4">
+                <Truck size={19} className="text-[#183A7A]" />
+
+                <span className="text-xs font-bold text-[#10285D]">
+                  Shipping Policy
+                </span>
+              </div>
+
+              <ArrowRight
+                size={14}
+                className="text-[#3569C8] transition-transform group-hover:translate-x-1"
+              />
+            </Link>
+
+            <Link
+              to="/return-policy"
+              className="group flex items-center justify-between bg-white p-5"
+            >
+              <div className="flex items-center gap-4">
+                <RotateCcw size={19} className="text-[#183A7A]" />
+
+                <span className="text-xs font-bold text-[#10285D]">
+                  Return &amp; Refund Policy
+                </span>
+              </div>
+
+              <ArrowRight
+                size={14}
+                className="text-[#3569C8] transition-transform group-hover:translate-x-1"
+              />
+            </Link>
+
+            <Link
+              to="/privacy-policy"
+              className="group flex items-center justify-between bg-white p-5"
+            >
+              <div className="flex items-center gap-4">
+                <LockKeyhole size={19} className="text-[#183A7A]" />
+
+                <span className="text-xs font-bold text-[#10285D]">
+                  Privacy Policy
+                </span>
+              </div>
+
+              <ArrowRight
+                size={14}
+                className="text-[#3569C8] transition-transform group-hover:translate-x-1"
+              />
+            </Link>
+          </div>
         </div>
       </section>
     </div>

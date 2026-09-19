@@ -1,356 +1,487 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import {
+  ShieldCheck,
+  LockKeyhole,
+  Database,
+  Cookie,
+  UserCheck,
+  ArrowRight,
+  Mail,
+  MapPin,
+} from "lucide-react";
+
+/* =========================================
+   ACV PLUS BUSINESS INFORMATION
+========================================= */
 
 const BUSINESS_INFO = {
-  businessName: "Ziveline LLC",
-  address: "2125 Strawberry Rd, Pasadena, TX 77502",
-  phoneDisplay: "+1 (832) 285-3511",
-  phoneHref: "+18322853511",
-  email: "info@ziveline.com",
-  businessDays: "Monday – Friday",
-  supportHours: "9:00 AM – 5:00 PM Central Time",
+  businessName: "ACV Plus",
+  website: "https://acvplus.us/",
+  email: "Support@acvplus.us",
+  address: "4808 Fairmont Pkwy, Pasadena, TX 77505",
+  descriptor: "Sophia Strategic Travisions LLC",
 };
 
+/* =========================================
+   PRIVACY POLICY SECTIONS
+========================================= */
+
+const sections = [
+  {
+    number: "01",
+    title: "Information We Collect",
+    icon: Database,
+
+    intro:
+      "When you visit ACV Plus, make a purchase, or contact us, we may collect information including:",
+
+    bullets: [
+      "Your name, email address, telephone number, billing address, and shipping address.",
+
+      "Information necessary to process your purchases and transactions. Payment details may be handled securely by third-party payment processors.",
+
+      "Information about your orders, purchases, and interactions with products available through our website.",
+
+      "Technical information such as your IP address, browser type, device type, operating system, and general website activity.",
+
+      "Information you voluntarily provide when contacting our customer service team or submitting forms through our website.",
+    ],
+  },
+
+  {
+    number: "02",
+    title: "How We Use Your Information",
+    icon: UserCheck,
+
+    intro: "We may use the information we collect to:",
+
+    bullets: [
+      "Process, confirm, fulfill, and deliver your orders.",
+
+      "Communicate with you regarding purchases, shipping, returns, or other order-related matters.",
+
+      "Respond to customer service requests and inquiries.",
+
+      "Maintain and improve the functionality and performance of our website.",
+
+      "Understand how visitors interact with our website and services.",
+
+      "Protect our website, customers, and transactions against unauthorized or fraudulent activity.",
+
+      "Send promotional or marketing communications where permitted and where you have chosen to receive them.",
+
+      "Comply with applicable legal, regulatory, and business requirements.",
+    ],
+  },
+
+  {
+    number: "03",
+    title: "How We Protect Your Information",
+    icon: LockKeyhole,
+
+    paragraphs: [
+      "ACV Plus takes reasonable administrative, technical, and organizational measures designed to safeguard personal information against unauthorized access, loss, misuse, alteration, or disclosure.",
+
+      "While we take appropriate precautions to protect your information, no method of electronic transmission or storage can be guaranteed to be completely secure.",
+
+      "We do not sell, rent, or trade your personal information to third parties for their independent use.",
+    ],
+  },
+
+  {
+    number: "04",
+    title: "Sharing Information With Service Providers",
+    icon: ShieldCheck,
+
+    intro:
+      "We may share limited personal information with trusted third-party providers when necessary to operate our business and provide services to you. These may include providers responsible for:",
+
+    bullets: [
+      "Secure payment processing.",
+      "Order fulfillment, shipping, and delivery.",
+      "Website hosting and technical services.",
+      "Analytics and website performance.",
+      "Fraud prevention and transaction security.",
+      "Customer service and business operations.",
+    ],
+
+    after:
+      "We only provide information reasonably necessary for these providers to perform their respective services.",
+  },
+
+  {
+    number: "05",
+    title: "Cookies and Similar Technologies",
+    icon: Cookie,
+
+    paragraphs: [
+      "ACV Plus may use cookies and similar technologies to provide essential website functionality, remember preferences, understand website usage, and improve the overall browsing experience.",
+
+      "Your browser may allow you to block or delete cookies. Please note that disabling certain cookies may affect some features or functionality of our website.",
+    ],
+  },
+
+  {
+    number: "06",
+    title: "Your Privacy Choices and Rights",
+    icon: UserCheck,
+
+    intro:
+      "Depending on your location and applicable privacy laws, you may have certain rights concerning your personal information, including the ability to:",
+
+    bullets: [
+      "Request access to personal information we maintain about you.",
+
+      "Request that inaccurate information be corrected or updated.",
+
+      "Request deletion of certain personal information, where legally applicable.",
+
+      "Withdraw consent where processing is based on consent.",
+
+      "Opt out of promotional or marketing communications.",
+
+      "Ask questions about how your personal information is collected or used.",
+    ],
+
+    after:
+      "To submit a privacy-related request, please contact us using the information provided below. We may need to verify your identity before processing certain requests.",
+  },
+
+  {
+    number: "07",
+    title: "Data Retention",
+    icon: Database,
+
+    paragraphs: [
+      "We may retain personal information for as long as reasonably necessary to fulfill the purposes described in this Privacy Policy, maintain business and transaction records, resolve disputes, prevent fraud, and comply with applicable legal obligations.",
+    ],
+  },
+
+  {
+    number: "08",
+    title: "Third-Party Websites",
+    icon: ShieldCheck,
+
+    paragraphs: [
+      "Our website may contain links to websites or services operated by third parties. ACV Plus is not responsible for the privacy practices, security, or content of third-party websites. We encourage you to review their privacy policies before providing personal information.",
+    ],
+  },
+
+  {
+    number: "09",
+    title: "Children’s Privacy",
+    icon: UserCheck,
+
+    paragraphs: [
+      "Our website and products are not intended to knowingly collect personal information from children where prohibited by applicable law. If we become aware that personal information has been collected improperly from a child, we may take reasonable steps to remove it.",
+    ],
+  },
+
+  {
+    number: "10",
+    title: "Changes to This Privacy Policy",
+    icon: ShieldCheck,
+
+    paragraphs: [
+      "We may update this Privacy Policy periodically to reflect changes to our practices, services, or applicable requirements. Any revised policy will be posted on this website, and we encourage visitors to review this page periodically.",
+    ],
+  },
+];
+
 const PrivacyPolicy = () => {
-  const sections = [
-    {
-      title: "1. Business Information",
-      body: [
-        "Ziveline is operated by:",
-        "Ziveline LLC\n2125 Strawberry Rd\nPasadena, TX 77502\nUnited States",
-        "Email: info@ziveline.com\nPhone: +1 (832) 285-3511\nCustomer Support Hours: Monday–Friday, 9:00 AM–5:00 PM Central Time",
-      ],
-    },
-    {
-      title: "2. Information We Collect",
-      body: [
-        "Depending on how you interact with our website, we may collect:",
-      ],
-      bullets: [
-        "Name, billing address, shipping address, email address, and telephone number.",
-        "Account login information, if you create an account.",
-        "Products purchased, order value, transaction status, returns, refunds, and customer-service history.",
-        "Information you provide through email, telephone, contact forms, reviews, or return requests.",
-        "Internet Protocol address, device type, browser type, operating system, referring pages, pages viewed, and approximate location.",
-        "Cookie, session, shopping-cart, and local-storage information.",
-        "Fraud-prevention and transaction-verification information.",
-      ],
-    },
-    {
-      title: "3. Payment Information",
-      body: [
-        "Ziveline is currently completing its online payment setup and does not accept Cash on Delivery.",
-        "When online payment processing is activated, payments will be handled by an authorized third-party payment processor. Ziveline will not intentionally store complete payment-card numbers or card security codes on its own systems.",
-        "Payment processors may collect and process payment information under their own privacy and security policies.",
-      ],
-    },
-    {
-      title: "4. How We Use Information",
-      body: [
-        "We may use personal information to:",
-      ],
-      bullets: [
-        "Operate and maintain our website.",
-        "Create and manage customer accounts.",
-        "Process, confirm, fulfill, and track orders.",
-        "Communicate order, shipping, delivery, return, and refund information.",
-        "Provide customer service.",
-        "Verify transactions and prevent fraud or unauthorized activity.",
-        "Improve our products, website, and customer experience.",
-        "Maintain business, accounting, tax, and compliance records.",
-        "Send marketing communications when the customer has chosen to receive them.",
-        "Comply with legal obligations and enforce our policies.",
-      ],
-      after: [
-        "We will not use personal information for materially different purposes without providing appropriate notice or obtaining consent when required.",
-      ],
-    },
-    {
-      title: "5. How We Disclose Information",
-      body: [
-        "We may disclose personal information to service providers that assist us with:",
-      ],
-      bullets: [
-        "Website hosting and technical infrastructure.",
-        "Order and inventory management.",
-        "Payment processing.",
-        "Shipping, tracking, and delivery.",
-        "Email and customer communications.",
-        "Website security and fraud prevention.",
-        "Analytics and website performance.",
-        "Accounting, legal, tax, and regulatory compliance.",
-      ],
-      after: [
-        "These providers may access information only as reasonably necessary to perform services for us and are expected to protect it appropriately.",
-        "We may also disclose information:",
-      ],
-      afterBullets: [
-        "When required by law, subpoena, court order, or lawful government request.",
-        "To investigate suspected fraud, security incidents, or violations of our policies.",
-        "To protect the rights, safety, and property of Ziveline, our customers, or others.",
-        "In connection with a merger, financing, acquisition, reorganization, or sale of business assets.",
-      ],
-    },
-    {
-      title: "6. Sale and Sharing of Personal Information",
-      body: [
-        "We do not sell personal information for money.",
-        "Certain analytics or advertising technologies, if enabled, may be treated as “sharing” or targeted advertising under some state privacy laws. Where legally required, eligible consumers may request to opt out by contacting info@ziveline.com.",
-      ],
-    },
-    {
-      title: "7. Cookies and Local Storage",
-      body: [
-        "Our website may use cookies, browser storage, session technologies, and similar tools to:",
-      ],
-      bullets: [
-        "Keep the website operational.",
-        "Maintain shopping-cart contents.",
-        "Remember customer preferences.",
-        "Support account login and security.",
-        "Understand website traffic and performance.",
-        "Detect fraud or suspicious activity.",
-      ],
-      after: [
-        "Additional information is available in our Cookie Policy.",
-      ],
-    },
-    {
-      title: "8. Marketing Communications",
-      body: [
-        "Customers may unsubscribe from promotional emails by using the unsubscribe link included in the message or by contacting info@ziveline.com.",
-        "Transactional communications concerning an order, delivery, return, security issue, or account are not promotional and may still be sent when necessary.",
-        "We do not send promotional text messages without the recipient’s appropriate consent. Consent to marketing is not a condition of purchase.",
-      ],
-    },
-    {
-      title: "9. Data Retention",
-      body: [
-        "We retain personal information only for as long as reasonably necessary to:",
-      ],
-      bullets: [
-        "Fulfill orders and provide customer support.",
-        "Process returns and refunds.",
-        "Maintain accounting, tax, and business records.",
-        "Prevent fraud and resolve disputes.",
-        "Comply with legal and regulatory obligations.",
-      ],
-      after: [
-        "Retention periods may differ according to the type of information and the reason it was collected.",
-      ],
-    },
-    {
-      title: "10. Data Security",
-      body: [
-        "We use reasonable administrative, organizational, and technical safeguards designed to protect personal information. However, no website, transmission, or storage system can be guaranteed to be completely secure.",
-        "Customers are responsible for maintaining the confidentiality of their account credentials and should contact us immediately if they suspect unauthorized account access.",
-        "Please do not send complete payment-card details through email, telephone messages, or our contact form.",
-      ],
-    },
-    {
-      title: "11. Your Privacy Choices and Rights",
-      body: [
-        "Depending on your state of residence and applicable law, you may have the right to:",
-      ],
-      bullets: [
-        "Request access to personal information we maintain about you.",
-        "Request correction of inaccurate information.",
-        "Request deletion of eligible personal information.",
-        "Request a portable copy of eligible information.",
-        "Opt out of certain targeted advertising, sales, or sharing.",
-        "Withdraw consent where processing is based on consent.",
-        "Appeal our response to an eligible privacy request.",
-        "Not receive unlawful discriminatory treatment for exercising privacy rights.",
-      ],
-      after: [
-        "To submit a request, email info@ziveline.com with the subject “Privacy Request.”",
-        "We may need to verify your identity before completing a request. An authorized agent may submit a request when permitted by law and after providing appropriate authorization.",
-      ],
-    },
-    {
-      title: "12. Children’s Privacy",
-      body: [
-        "Our website and products are intended for adults. We do not knowingly collect personal information directly from children under 13. If you believe a child has provided personal information, contact us so we can review and delete it when required.",
-        "Individuals under 18 should use the website only with the involvement and permission of a parent or legal guardian.",
-      ],
-    },
-    {
-      title: "13. Third-Party Websites",
-      body: [
-        "Our website may contain links to third-party websites or services. We are not responsible for the privacy, security, content, or practices of third parties. Customers should review the applicable third party’s policies before providing information.",
-      ],
-    },
-    {
-      title: "14. United States Operations",
-      body: [
-        "Ziveline operates in the United States. Information may be processed and stored in the United States, where privacy laws may differ from those in other jurisdictions.",
-      ],
-    },
-    {
-      title: "15. Changes to This Policy",
-      body: [
-        "We may update this Privacy Policy to reflect operational, legal, or technical changes. The revised version will be posted on this page with an updated “Last Updated” date.",
-      ],
-    },
-    {
-      title: "16. Contact Us",
-      body: [
-        "Questions or privacy requests may be directed to:",
-        "Ziveline LLC\n2125 Strawberry Rd\nPasadena, TX 77502\nUnited States",
-        "Email: info@ziveline.com\nPhone: +1 (832) 285-3511\nHours: Monday–Friday, 9:00 AM–5:00 PM Central Time",
-      ],
-    },
-  ];
-
   return (
-    <div className="min-h-screen overflow-x-hidden bg-paper text-ink">
-      {/* HERO */}
-      <section className="border-b border-line bg-ink px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center bg-paper text-ink">
-            <ShieldCheck size={24} aria-hidden="true" />
+    <div className="min-h-screen bg-[#F1F6FF] text-[#263B63]">
+      {/* =========================================
+          HERO
+      ========================================= */}
+
+      <section className="relative overflow-hidden border-b border-[#D6E2F7] bg-white">
+        {/* DECORATIVE BACKGROUND */}
+
+        <div className="pointer-events-none absolute -right-24 -top-24 h-[360px] w-[360px] rounded-full bg-[#E8F1FF]" />
+
+        <div className="pointer-events-none absolute right-[18%] top-16 h-28 w-28 rounded-full border border-[#C5D7FF]/60" />
+
+        <div className="relative mx-auto max-w-[1200px] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-[760px] text-center">
+            {/* ICON */}
+
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[#C5D7FF] bg-[#E8F1FF] text-[#183A7A]">
+              <ShieldCheck size={25} strokeWidth={1.7} aria-hidden="true" />
+            </div>
+
+            {/* EYEBROW */}
+
+            <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.24em] text-[#3569C8] sm:text-[11px]">
+              Your Information Matters
+            </p>
+
+            {/* HEADING */}
+
+            <h1 className="mt-3 font-serif text-[40px] font-semibold leading-[1.08] tracking-[-0.03em] text-[#10285D] sm:text-5xl lg:text-[56px]">
+              Privacy Policy
+            </h1>
+
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#263B63]/70 sm:text-[15px]">
+              At ACV Plus, we value your privacy and are committed to protecting
+              the personal information you share with us.
+            </p>
+
+            {/* SMALL DIVIDER */}
+
+            <div className="mx-auto mt-7 h-[2px] w-12 rounded-full bg-[#3569C8]" />
           </div>
-
-          <p className="mt-6 text-xs font-bold uppercase tracking-[0.25em] text-paper/60">
-            Ziveline
-          </p>
-
-          <h1 className="mt-3 font-display text-4xl leading-tight text-paper sm:text-5xl">
-            Privacy Policy
-          </h1>
-
-          <p className="mt-4 text-sm text-paper/60">
-            Last updated: September 11, 2026
-          </p>
         </div>
       </section>
 
-      {/* INTRO + POLICY */}
-      <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          <p className="text-sm leading-7 text-ink/60 sm:text-base">
-            Ziveline LLC (“Ziveline,” “we,” “us,” or “our”) respects your
-            privacy. This Privacy Policy explains how we collect, use,
-            disclose, retain, and protect personal information when you visit
-            https://www.ziveline.com, create an account, communicate with us,
-            or purchase our products.
-          </p>
+      {/* =========================================
+          INTRODUCTION
+      ========================================= */}
 
-          <div className="mt-10 space-y-9 sm:mt-12 sm:space-y-10">
-            {sections.map((section) => (
-              <section key={section.title}>
-                <h2 className="font-display text-2xl leading-tight text-ink">
-                  {section.title}
+      <section className="px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+        <div className="mx-auto max-w-[1000px]">
+          <div className="rounded-[18px] border border-[#D6E2F7] bg-white p-6 shadow-[0_8px_30px_rgba(16,40,93,0.04)] sm:p-8 lg:p-10">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E8F1FF] text-[#183A7A]">
+                <ShieldCheck size={20} strokeWidth={1.8} />
+              </div>
+
+              <div>
+                <h2 className="font-serif text-2xl font-semibold text-[#10285D]">
+                  Our Commitment to Your Privacy
                 </h2>
 
-                <div className="mt-3 space-y-3">
-                  {section.body?.map((paragraph, index) => (
-                    <p
-                      key={`${section.title}-body-${index}`}
-                      className="whitespace-pre-line text-sm leading-7 text-ink/60 sm:text-[15px]"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
+                <p className="mt-3 text-sm leading-7 text-[#263B63]/72 sm:text-[15px]">
+                  At{" "}
+                  <strong className="font-semibold text-[#10285D]">
+                    ACV Plus
+                  </strong>
+                  , we value your privacy and are committed to protecting the
+                  personal information you share with us. This Privacy Policy
+                  describes how ACV Plus collects, uses, stores, and protects
+                  your information when you visit our website, interact with our
+                  services, or place an order.
+                </p>
 
-                  {section.bullets && (
-                    <ul className="list-disc space-y-2 pl-5 text-sm leading-7 text-ink/60 sm:text-[15px]">
-                      {section.bullets.map((item, index) => (
-                        <li key={`${section.title}-bullet-${index}`}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {section.after?.map((paragraph, index) => (
-                    <p
-                      key={`${section.title}-after-${index}`}
-                      className="whitespace-pre-line text-sm leading-7 text-ink/60 sm:text-[15px]"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-
-                  {section.afterBullets && (
-                    <ul className="list-disc space-y-2 pl-5 text-sm leading-7 text-ink/60 sm:text-[15px]">
-                      {section.afterBullets.map((item, index) => (
-                        <li key={`${section.title}-after-bullet-${index}`}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </section>
-            ))}
-          </div>
-
-          {/* CONTACT NOTE */}
-          <div className="mt-12 border border-line bg-[#F4F1EB] p-5 sm:p-6">
-            <h2 className="font-display text-xl text-ink">
-              Privacy Questions or Requests
-            </h2>
-
-            <p className="mt-2 text-sm leading-7 text-ink/60">
-              If you have a question about this Privacy Policy or want to make
-              a privacy-related request, you can contact{" "}
-              {BUSINESS_INFO.businessName} using the details below.
-            </p>
-
-            <div className="mt-4 space-y-1 text-sm leading-6 text-ink/60">
-              <p>{BUSINESS_INFO.businessName}</p>
-              <p>{BUSINESS_INFO.address}</p>
-
-              <p>
-                Email:{" "}
-                <a
-                  href={`mailto:${BUSINESS_INFO.email}`}
-                  className="font-medium text-ink transition-opacity hover:opacity-70"
-                >
-                  {BUSINESS_INFO.email}
-                </a>
-              </p>
-
-              <p>
-                Phone:{" "}
-                <a
-                  href={`tel:${BUSINESS_INFO.phoneHref}`}
-                  className="font-medium text-ink transition-opacity hover:opacity-70"
-                >
-                  {BUSINESS_INFO.phoneDisplay}
-                </a>
-              </p>
-
-              <p>
-                Support: {BUSINESS_INFO.businessDays},{" "}
-                {BUSINESS_INFO.supportHours}
-              </p>
+                <p className="mt-3 text-sm leading-7 text-[#263B63]/72 sm:text-[15px]">
+                  By using our website, you acknowledge the practices described
+                  in this Privacy Policy.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="border-t border-line px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-        <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 border border-line bg-ink p-6 text-paper sm:p-8 md:flex-row md:items-center md:justify-between md:p-10">
+      {/* =========================================
+          POLICY CONTENT
+      ========================================= */}
+
+      <section className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+        <div className="mx-auto max-w-[1000px]">
+          <div className="space-y-5">
+            {sections.map((section) => {
+              const Icon = section.icon;
+
+              return (
+                <article
+                  key={section.number}
+                  className="group overflow-hidden rounded-[18px] border border-[#D6E2F7] bg-white shadow-[0_5px_20px_rgba(16,40,93,0.035)] transition-shadow duration-300 hover:shadow-[0_10px_35px_rgba(16,40,93,0.07)]"
+                >
+                  {/* CARD HEADER */}
+
+                  <div className="flex items-start gap-4 border-b border-[#D6E2F7] bg-[#FAFCFF] px-5 py-5 sm:gap-5 sm:px-7">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E8F1FF] text-[#183A7A]">
+                      <Icon size={19} strokeWidth={1.7} />
+                    </div>
+
+                    <div className="min-w-0 pt-0.5">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#3569C8]">
+                        Section {section.number}
+                      </span>
+
+                      <h2 className="mt-1 font-serif text-[22px] font-semibold leading-tight text-[#10285D] sm:text-2xl">
+                        {section.title}
+                      </h2>
+                    </div>
+                  </div>
+
+                  {/* CARD CONTENT */}
+
+                  <div className="px-5 py-6 sm:px-7 sm:py-7">
+                    {section.intro && (
+                      <p className="text-sm leading-7 text-[#263B63]/72 sm:text-[15px]">
+                        {section.intro}
+                      </p>
+                    )}
+
+                    {section.paragraphs && (
+                      <div className="space-y-4">
+                        {section.paragraphs.map((paragraph, index) => (
+                          <p
+                            key={index}
+                            className="text-sm leading-7 text-[#263B63]/72 sm:text-[15px]"
+                          >
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+
+                    {section.bullets && (
+                      <ul
+                        className={`${section.intro ? "mt-5" : ""} space-y-3`}
+                      >
+                        {section.bullets.map((item, index) => (
+                          <li
+                            key={index}
+                            className="flex items-start gap-3 text-sm leading-7 text-[#263B63]/72 sm:text-[15px]"
+                          >
+                            <span className="mt-[10px] h-[5px] w-[5px] shrink-0 rounded-full bg-[#3569C8]" />
+
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {section.after && (
+                      <p className="mt-5 text-sm leading-7 text-[#263B63]/72 sm:text-[15px]">
+                        {section.after}
+                      </p>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================
+          CONTACT INFORMATION
+      ========================================= */}
+
+      <section className="border-y border-[#D6E2F7] bg-white px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto max-w-[1000px]">
+          <div className="grid overflow-hidden rounded-[22px] border border-[#D6E2F7] lg:grid-cols-[0.9fr_1.1fr]">
+            {/* LEFT */}
+
+            <div className="bg-[#172D57] p-7 text-white sm:p-9 lg:p-10">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#AFC8FF]">
+                Privacy Support
+              </p>
+
+              <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight sm:text-[36px]">
+                Have a privacy question?
+              </h2>
+
+              <p className="mt-4 max-w-md text-sm leading-7 text-white/70">
+                If you have questions regarding this Privacy Policy or would
+                like to submit a privacy-related request, please contact us.
+              </p>
+
+              <Link
+                to="/contact"
+                className="mt-7 inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-white px-6 text-[12px] font-bold text-[#183A7A] transition-colors hover:bg-[#E8F1FF]"
+              >
+                Contact Us
+                <ArrowRight size={15} strokeWidth={2} />
+              </Link>
+            </div>
+
+            {/* RIGHT */}
+
+            <div className="bg-[#FAFCFF] p-7 sm:p-9 lg:p-10">
+              <h3 className="font-serif text-2xl font-semibold text-[#10285D]">
+                Contact Information
+              </h3>
+
+              <div className="mt-6 space-y-5">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E8F1FF] text-[#183A7A]">
+                    <Mail size={17} />
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#263B63]/50">
+                      Email
+                    </p>
+
+                    <a
+                      href={`mailto:${BUSINESS_INFO.email}`}
+                      className="mt-1 inline-block text-sm font-semibold text-[#183A7A] transition-colors hover:text-[#3569C8]"
+                    >
+                      {BUSINESS_INFO.email}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E8F1FF] text-[#183A7A]">
+                    <MapPin size={17} />
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#263B63]/50">
+                      Business Address
+                    </p>
+
+                    <p className="mt-1 text-sm font-medium leading-6 text-[#263B63]">
+                      {BUSINESS_INFO.address}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-7 border-t border-[#D6E2F7] pt-5">
+                <p className="text-xs leading-6 text-[#263B63]/60">
+                  Website:{" "}
+                  <span className="font-semibold text-[#183A7A]">
+                    acvplus.us
+                  </span>
+                </p>
+
+                <p className="mt-1 text-xs leading-6 text-[#263B63]/60">
+                  Descriptor:{" "}
+                  <span className="font-semibold text-[#183A7A]">
+                    {BUSINESS_INFO.descriptor}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================
+          BOTTOM CTA
+      ========================================= */}
+
+      <section className="bg-[#F1F6FF] px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+        <div className="mx-auto flex max-w-[1000px] flex-col items-start justify-between gap-6 rounded-[18px] border border-[#D6E2F7] bg-white p-6 sm:p-8 md:flex-row md:items-center">
           <div>
-            <h3 className="font-display text-2xl">
-              Questions about your information?
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#3569C8]">
+              ACV Plus Support
+            </p>
+
+            <h3 className="mt-2 font-serif text-2xl font-semibold text-[#10285D]">
+              We're here to help.
             </h3>
 
-            <p className="mt-2 text-sm leading-6 text-paper/60">
-              Contact us if you have a privacy-related question or request.
+            <p className="mt-2 text-sm leading-6 text-[#263B63]/65">
+              Contact our support team if you have a question about your
+              information or an order.
             </p>
           </div>
 
           <Link
             to="/contact"
-            className="inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-2 bg-paper px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-ink transition-colors duration-300 hover:bg-[#EFE9DE] md:w-auto"
+            className="inline-flex min-h-[48px] w-full shrink-0 items-center justify-center gap-2 rounded-full bg-[#23458C] px-7 text-xs font-bold text-white transition-colors hover:bg-[#315FBA] md:w-auto"
           >
-            Contact Us
-            <ArrowRight size={16} aria-hidden="true" />
+            Contact Support
+            <ArrowRight size={15} strokeWidth={2} />
           </Link>
         </div>
       </section>
