@@ -8,15 +8,20 @@ import {
   Send,
   CheckCircle2,
   AlertCircle,
+  Headphones,
+  ShieldCheck,
+  MessageCircle,
+  Sparkles,
 } from "lucide-react";
 
 const BUSINESS_INFO = {
-  businessName: "Ziveline LLC",
-  email: "info@Ziveline.com",
-  phoneDisplay: "+1 (832) 285-3511",
-  phoneHref: "+18322853511",
-  addressLine1: "2125 Strawberry Rd",
-  addressLine2: "Pasadena, TX 77502",
+  businessName: "ACV Plus",
+  descriptor: "Sophia Strategic Travisions LLC",
+  email: "Support@acvplus.us",
+  phoneDisplay: "+1 (888) 944-6546",
+  phoneHref: "+18889446546",
+  addressLine1: "4808 Fairmont Pkwy",
+  addressLine2: "Pasadena, TX 77505",
   country: "United States",
   hours: "Monday – Friday",
   time: "9:00 AM – 5:00 PM CT",
@@ -101,357 +106,448 @@ const Contact = () => {
   };
 
   return (
-    <section className="min-h-screen overflow-x-hidden bg-[#F4F1EB]">
-
+    <main className="min-h-screen overflow-hidden bg-[#F1F6FF] text-[#263B63]">
       {/* HERO */}
-      <div className="bg-ink px-4 py-14 text-paper sm:px-6 sm:py-20 lg:px-8 lg:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl">
+      <section className="relative overflow-hidden bg-[#172D57]">
+        <div className="absolute -left-32 -top-40 h-[420px] w-[420px] rounded-full bg-[#3569C8]/20 blur-3xl" />
+        <div className="absolute -bottom-52 right-0 h-[500px] w-[500px] rounded-full bg-[#AFC8FF]/10 blur-3xl" />
 
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-paper/60 sm:text-sm sm:tracking-[0.25em]">
-              Get In Touch
-            </p>
-
-            <h1 className="mt-5 font-display text-4xl leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
-              We&apos;re here
-              <span className="block text-paper/60">
-                to help.
-              </span>
-            </h1>
-
-            <p className="mt-6 max-w-2xl text-sm leading-7 text-paper/70 sm:text-base">
-              Have a question about an order, product, shipping,
-              returns, or anything Ziveline? Send us a message or
-              contact our support team directly.
-            </p>
-
-          </div>
-        </div>
-      </div>
-
-      {/* CONTACT CONTENT */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
-
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
-
-          {/* CONTACT INFORMATION */}
-          <div>
-
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bottle">
-              Contact Information
-            </p>
-
-            <h2 className="mt-3 font-display text-3xl text-ink sm:text-4xl">
-              Contact Ziveline
-            </h2>
-
-            <p className="mt-4 max-w-xl text-sm leading-7 text-ink/60">
-              Our support team is available during normal business hours.
-              For general questions, order assistance, or product support,
-              please contact us using the information below.
-            </p>
-
-            <div className="mt-8 grid gap-5">
-
-              {/* EMAIL */}
-              <div className="flex min-w-0 items-start gap-4 border border-line bg-paper p-6">
-
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-ink text-paper">
-                  <Mail size={20} aria-hidden="true" />
-                </div>
-
-                <div className="min-w-0">
-
-                  <p className="text-xs font-bold uppercase tracking-wider text-ink/40">
-                    Email
-                  </p>
-
-                  <a
-                    href={`mailto:${BUSINESS_INFO.email}`}
-                    className="mt-1 block break-all font-semibold text-ink transition-opacity hover:opacity-70"
-                  >
-                    {BUSINESS_INFO.email}
-                  </a>
-
-                  <p className="mt-2 text-sm leading-6 text-ink/50">
-                    We usually respond within 24 hours during business days.
-                  </p>
-
-                </div>
-
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#AFC8FF]/30 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#C5D7FF]">
+                <MessageCircle size={15} />
+                Contact ACV Plus
               </div>
 
-              {/* PHONE */}
-              <div className="flex min-w-0 items-start gap-4 border border-line bg-paper p-6">
+              <h1 className="mt-6 font-serif text-4xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-6xl">
+                We&apos;re Here to
+                <span className="block text-[#AFC8FF]">Help You.</span>
+              </h1>
 
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-ink text-paper">
-                  <Phone size={20} aria-hidden="true" />
-                </div>
+              <p className="mt-6 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
+                Have a question about an ACV Plus product, your order,
+                shipping, returns, or general support? Our team is ready to
+                assist you.
+              </p>
 
-                <div className="min-w-0">
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href={`mailto:${BUSINESS_INFO.email}`}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#172D57] transition hover:bg-[#E8F1FF]"
+                >
+                  <Mail size={17} />
+                  Email Support
+                </a>
 
-                  <p className="text-xs font-bold uppercase tracking-wider text-ink/40">
-                    Phone
-                  </p>
-
-                  <a
-                    href={`tel:${BUSINESS_INFO.phoneHref}`}
-                    className="mt-1 block break-words font-semibold text-ink transition-opacity hover:opacity-70"
-                  >
-                    {BUSINESS_INFO.phoneDisplay}
-                  </a>
-
-                  <p className="mt-2 text-sm leading-6 text-ink/50">
-                    {BUSINESS_INFO.hours}
-                    <br />
-                    {BUSINESS_INFO.time}
-                  </p>
-
-                </div>
-
+                <a
+                  href={`tel:${BUSINESS_INFO.phoneHref}`}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 px-6 text-sm font-semibold text-white transition hover:bg-white/10"
+                >
+                  <Phone size={17} />
+                  Call Us
+                </a>
               </div>
-
-              {/* ADDRESS */}
-              <div className="flex min-w-0 items-start gap-4 border border-line bg-paper p-6">
-
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-ink text-paper">
-                  <MapPin size={20} aria-hidden="true" />
-                </div>
-
-                <div className="min-w-0">
-
-                  <p className="text-xs font-bold uppercase tracking-wider text-ink/40">
-                    Business Location
-                  </p>
-
-                  <p className="mt-1 font-semibold text-ink">
-                    {BUSINESS_INFO.businessName}
-                  </p>
-
-                  <p className="mt-2 text-sm leading-6 text-ink/50">
-                    {BUSINESS_INFO.addressLine1}
-                    <br />
-                    {BUSINESS_INFO.addressLine2}
-                    <br />
-                    {BUSINESS_INFO.country}
-                  </p>
-
-                </div>
-
-              </div>
-
-              {/* HOURS */}
-              <div className="flex min-w-0 items-start gap-4 border border-line bg-paper p-6">
-
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-ink text-paper">
-                  <Clock3 size={20} aria-hidden="true" />
-                </div>
-
-                <div className="min-w-0">
-
-                  <p className="text-xs font-bold uppercase tracking-wider text-ink/40">
-                    Working Hours
-                  </p>
-
-                  <p className="mt-1 font-semibold text-ink">
-                    {BUSINESS_INFO.hours}
-                  </p>
-
-                  <p className="mt-2 text-sm leading-6 text-ink/50">
-                    {BUSINESS_INFO.time}
-                  </p>
-
-                </div>
-
-              </div>
-
             </div>
 
+            <div className="hidden lg:flex lg:justify-end">
+              <div className="relative flex h-[310px] w-[310px] items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
+                <div className="absolute inset-8 rounded-full border border-[#AFC8FF]/15" />
+
+                <div className="relative flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-2xl">
+                  <Headphones
+                    size={70}
+                    strokeWidth={1.4}
+                    className="text-[#23458C]"
+                  />
+                </div>
+
+                <div className="absolute right-1 top-14 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#3569C8] text-white shadow-xl">
+                  <MessageCircle size={25} />
+                </div>
+
+                <div className="absolute bottom-7 left-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#AFC8FF] text-[#172D57] shadow-xl">
+                  <ShieldCheck size={25} />
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+      </section>
 
-          {/* CONTACT FORM */}
-          <div className="border border-line bg-paper p-6 sm:p-8 lg:p-10">
+      {/* SUPPORT STRIP */}
+      <section className="border-b border-[#D6E2F7] bg-white">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-[#D6E2F7] px-4 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-6 lg:px-8">
+          <SupportItem
+            icon={Mail}
+            title="Email Support"
+            text="Direct assistance from our team"
+          />
 
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bottle">
-              Send A Message
-            </p>
+          <SupportItem
+            icon={Clock3}
+            title="Business Hours"
+            text="Monday – Friday"
+          />
 
-            <h2 className="mt-3 font-display text-3xl text-ink">
-              How can we help?
-            </h2>
+          <SupportItem
+            icon={ShieldCheck}
+            title="Customer Care"
+            text="Order & product assistance"
+          />
+        </div>
+      </section>
 
-            <p className="mt-3 text-sm leading-7 text-ink/60">
-              Complete the form below and our support team will review your
-              message.
-            </p>
-
-            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-
-              <div>
-
-                <label
-                  htmlFor="name"
-                  className="mb-2 block text-xs font-bold uppercase tracking-wider text-ink/60"
-                >
-                  Name
-                </label>
-
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  maxLength={80}
-                  required
-                  autoComplete="name"
-                  className="min-h-12 w-full border border-line bg-[#F9F7F3] px-4 py-3 text-sm text-ink outline-none transition focus:border-ink"
-                  placeholder="Your name"
-                />
-
+      {/* CONTACT CONTENT */}
+      <section className="relative py-14 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+            {/* LEFT */}
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#3569C8]">
+                <Sparkles size={15} />
+                Contact Information
               </div>
 
-              <div>
+              <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-[#10285D] sm:text-4xl">
+                Get in touch with
+                <span className="block">ACV Plus</span>
+              </h2>
 
-                <label
-                  htmlFor="email"
-                  className="mb-2 block text-xs font-bold uppercase tracking-wider text-ink/60"
-                >
-                  Email
-                </label>
+              <p className="mt-5 max-w-xl text-sm leading-7 text-[#263B63]/70">
+                Whether you need assistance with an order or have a question
+                about our products, you can reach our support team using the
+                contact information below.
+              </p>
 
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  maxLength={120}
-                  required
-                  autoComplete="email"
-                  className="min-h-12 w-full border border-line bg-[#F9F7F3] px-4 py-3 text-sm text-ink outline-none transition focus:border-ink"
-                  placeholder="you@example.com"
+              <div className="mt-9 grid gap-4">
+                <ContactCard
+                  icon={Mail}
+                  label="Email"
+                  content={
+                    <a
+                      href={`mailto:${BUSINESS_INFO.email}`}
+                      className="break-all font-semibold text-[#10285D] transition hover:text-[#3569C8]"
+                    >
+                      {BUSINESS_INFO.email}
+                    </a>
+                  }
+                  description="For orders, products, returns, and general support."
                 />
 
+                <ContactCard
+                  icon={Phone}
+                  label="Phone"
+                  content={
+                    <a
+                      href={`tel:${BUSINESS_INFO.phoneHref}`}
+                      className="font-semibold text-[#10285D] transition hover:text-[#3569C8]"
+                    >
+                      {BUSINESS_INFO.phoneDisplay}
+                    </a>
+                  }
+                  description={`${BUSINESS_INFO.hours} · ${BUSINESS_INFO.time}`}
+                />
+
+                <ContactCard
+                  icon={MapPin}
+                  label="Business Location"
+                  content={
+                    <span className="font-semibold text-[#10285D]">
+                      {BUSINESS_INFO.addressLine1}
+                      <br />
+                      {BUSINESS_INFO.addressLine2}
+                    </span>
+                  }
+                  description={BUSINESS_INFO.country}
+                />
+
+                <ContactCard
+                  icon={Clock3}
+                  label="Working Hours"
+                  content={
+                    <span className="font-semibold text-[#10285D]">
+                      {BUSINESS_INFO.hours}
+                    </span>
+                  }
+                  description={BUSINESS_INFO.time}
+                />
               </div>
 
-              <div>
+              <div className="mt-6 rounded-3xl border border-[#C5D7FF] bg-[#E8F1FF] p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#3569C8]">
+                  Business Descriptor
+                </p>
 
-                <label
-                  htmlFor="subject"
-                  className="mb-2 block text-xs font-bold uppercase tracking-wider text-ink/60"
-                >
-                  Subject
-                </label>
+                <p className="mt-2 text-sm font-semibold text-[#10285D]">
+                  Descriptor: {BUSINESS_INFO.descriptor}
+                </p>
+              </div>
+            </div>
 
-                <input
+            {/* FORM */}
+            <div className="rounded-[32px] border border-[#D6E2F7] bg-white p-5 shadow-[0_20px_60px_rgba(16,40,93,0.08)] sm:p-8 lg:p-10">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#3569C8]">
+                <Send size={15} />
+                Send A Message
+              </div>
+
+              <h2 className="mt-4 font-serif text-3xl font-semibold text-[#10285D]">
+                How can we help?
+              </h2>
+
+              <p className="mt-3 text-sm leading-7 text-[#263B63]/65">
+                Fill out the form and send your message directly to our
+                support team.
+              </p>
+
+              <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field
+                    label="Your Name"
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                    autoComplete="name"
+                    maxLength={80}
+                  />
+
+                  <Field
+                    label="Email Address"
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    maxLength={120}
+                  />
+                </div>
+
+                <Field
+                  label="Subject"
                   id="subject"
                   name="subject"
                   type="text"
                   value={formData.subject}
                   onChange={handleChange}
-                  maxLength={120}
-                  required
-                  className="min-h-12 w-full border border-line bg-[#F9F7F3] px-4 py-3 text-sm text-ink outline-none transition focus:border-ink"
                   placeholder="How can we help?"
+                  maxLength={120}
                 />
 
-              </div>
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="mb-2.5 block text-xs font-bold uppercase tracking-[0.1em] text-[#263B63]/65"
+                  >
+                    Message
+                  </label>
 
-              <div>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    maxLength={2000}
+                    required
+                    rows={7}
+                    className="w-full resize-y rounded-2xl border border-[#D6E2F7] bg-[#FAFCFF] px-4 py-3.5 text-sm leading-6 text-[#263B63] outline-none transition placeholder:text-[#263B63]/35 focus:border-[#3569C8] focus:bg-white focus:ring-4 focus:ring-[#3569C8]/10"
+                    placeholder="Tell us how we can help..."
+                  />
+                </div>
 
-                <label
-                  htmlFor="message"
-                  className="mb-2 block text-xs font-bold uppercase tracking-wider text-ink/60"
+                {successMessage && (
+                  <div
+                    role="status"
+                    className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-800"
+                  >
+                    <CheckCircle2
+                      size={20}
+                      className="mt-0.5 shrink-0"
+                    />
+                    <span>{successMessage}</span>
+                  </div>
+                )}
+
+                {errorMessage && (
+                  <div
+                    role="alert"
+                    className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-700"
+                  >
+                    <AlertCircle
+                      size={20}
+                      className="mt-0.5 shrink-0"
+                    />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="group inline-flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-[#23458C] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(35,69,140,0.22)] transition duration-300 hover:bg-[#315FBA] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Message
-                </label>
-
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  maxLength={2000}
-                  required
-                  rows={7}
-                  className="w-full resize-y border border-line bg-[#F9F7F3] px-4 py-3 text-sm leading-6 text-ink outline-none transition focus:border-ink"
-                  placeholder="Enter your message"
-                />
-
-              </div>
-
-              {successMessage && (
-                <div
-                  role="status"
-                  className="flex items-start gap-3 border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-800"
-                >
-                  <CheckCircle2
-                    size={20}
-                    className="mt-0.5 shrink-0"
-                    aria-hidden="true"
+                  <Send
+                    size={17}
+                    className="transition-transform group-hover:translate-x-0.5"
                   />
 
-                  <span>{successMessage}</span>
-                </div>
-              )}
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </button>
 
-              {errorMessage && (
-                <div
-                  role="alert"
-                  className="flex items-start gap-3 border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-700"
-                >
-                  <AlertCircle
-                    size={20}
-                    className="mt-0.5 shrink-0"
-                    aria-hidden="true"
-                  />
-
-                  <span>{errorMessage}</span>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-wider text-paper transition-colors duration-300 hover:bg-bottle-dark disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <Send size={16} aria-hidden="true" />
-
-                {isSubmitting ? "Sending..." : "Send Message"}
-              </button>
-
-            </form>
-
+                <p className="text-center text-xs leading-5 text-[#263B63]/50">
+                  By submitting this form, you&apos;re contacting the ACV Plus
+                  customer support team.
+                </p>
+              </form>
+            </div>
           </div>
-
         </div>
-
-      </div>
+      </section>
 
       {/* BOTTOM CTA */}
-      <div className="border-t border-line bg-paper px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <section className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-[#172D57] px-6 py-12 text-center sm:px-10 sm:py-14">
+          <div className="absolute -left-20 -top-28 h-72 w-72 rounded-full bg-[#3569C8]/20 blur-3xl" />
+          <div className="absolute -bottom-32 right-0 h-80 w-80 rounded-full bg-[#AFC8FF]/10 blur-3xl" />
 
-        <div className="mx-auto max-w-7xl text-center">
+          <div className="relative mx-auto max-w-2xl">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-[#AFC8FF]">
+              <LeafIcon />
+            </div>
 
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bottle">
-            Ziveline
-          </p>
+            <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-[#AFC8FF]">
+              ACV Plus
+            </p>
 
-          <h2 className="mt-3 font-display text-3xl text-ink sm:text-4xl">
-            Carry Your Style.
-          </h2>
+            <h2 className="mt-3 font-serif text-3xl font-semibold text-white sm:text-4xl">
+              Support for your ACV Plus experience.
+            </h2>
 
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-ink/60">
-            Designed for everyday use with practical details and modern style.
-          </p>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/65">
+              Questions about your order or our products? Reach out and our
+              support team will be happy to assist.
+            </p>
 
+            <a
+              href={`mailto:${BUSINESS_INFO.email}`}
+              className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#172D57] transition hover:bg-[#E8F1FF]"
+            >
+              <Mail size={17} />
+              {BUSINESS_INFO.email}
+            </a>
+          </div>
         </div>
-
-      </div>
-
-    </section>
+      </section>
+    </main>
   );
 };
+
+const Field = ({
+  label,
+  id,
+  name,
+  type,
+  value,
+  onChange,
+  placeholder,
+  autoComplete,
+  maxLength,
+}) => {
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="mb-2.5 block text-xs font-bold uppercase tracking-[0.1em] text-[#263B63]/65"
+      >
+        {label}
+      </label>
+
+      <input
+        id={id}
+        name={name}
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        autoComplete={autoComplete}
+        maxLength={maxLength}
+        required
+        className="min-h-12 w-full rounded-2xl border border-[#D6E2F7] bg-[#FAFCFF] px-4 py-3 text-sm text-[#263B63] outline-none transition placeholder:text-[#263B63]/35 focus:border-[#3569C8] focus:bg-white focus:ring-4 focus:ring-[#3569C8]/10"
+      />
+    </div>
+  );
+};
+
+const ContactCard = ({
+  icon: Icon,
+  label,
+  content,
+  description,
+}) => {
+  return (
+    <div className="group flex min-w-0 items-start gap-4 rounded-3xl border border-[#D6E2F7] bg-white p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[#AFC8FF] hover:shadow-[0_12px_35px_rgba(16,40,93,0.07)] sm:p-6">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#E8F1FF] text-[#23458C] transition group-hover:bg-[#23458C] group-hover:text-white">
+        <Icon size={20} />
+      </div>
+
+      <div className="min-w-0">
+        <p className="text-[11px] font-bold uppercase tracking-[0.13em] text-[#263B63]/45">
+          {label}
+        </p>
+
+        <div className="mt-1.5 text-sm">{content}</div>
+
+        <p className="mt-2 text-xs leading-5 text-[#263B63]/55">
+          {description}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const SupportItem = ({ icon: Icon, title, text }) => {
+  return (
+    <div className="flex items-center justify-center gap-3 px-4 py-5 sm:py-6">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E8F1FF] text-[#23458C]">
+        <Icon size={18} />
+      </div>
+
+      <div>
+        <p className="text-sm font-semibold text-[#10285D]">{title}</p>
+        <p className="mt-0.5 text-xs text-[#263B63]/55">{text}</p>
+      </div>
+    </div>
+  );
+};
+
+const LeafIcon = () => (
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      d="M19.5 4.5C13.5 4.7 8.3 7.2 6.1 11.4C4.8 13.9 5.2 16.5 6.7 18.2C8.4 19.7 11 20.1 13.5 18.8C17.7 16.6 20.2 11.4 20.4 5.4C20.4 4.9 20 4.5 19.5 4.5Z"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 20C7.2 15.7 11.1 12.3 16.2 9.5"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+    />
+  </svg>
+);
 
 export default Contact;
