@@ -25,6 +25,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /* =========================================
+   ALLOWED FRONTEND ORIGINS
+========================================= */
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://acvplus.us",
+  "https://www.acvplus.us",
+];
+
+/* =========================================
    SECURITY HEADERS
 ========================================= */
 
@@ -47,6 +58,7 @@ app.use(
           "blob:",
           "https:",
           "http://localhost:5000",
+          "https://api.acvplus.us",
         ],
 
         fontSrc: [
@@ -60,6 +72,9 @@ app.use(
           "http://localhost:5000",
           "http://localhost:5173",
           "http://localhost:3000",
+          "https://acvplus.us",
+          "https://www.acvplus.us",
+          "https://api.acvplus.us",
         ],
 
         objectSrc: ["'none'"],
@@ -112,29 +127,11 @@ app.use((req, res, next) => {
    CORS
 ========================================= */
 
-/*
-  Local development origins.
-
-  Production ACV Plus domains will be
-  added here when the website is deployed.
-*/
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-];
-
 app.use(
   cors({
     origin: (origin, callback) => {
-      /*
-        Allow requests without an Origin header.
-
-        Examples:
-        Postman
-        Server-to-server requests
-        Health checks
-        Direct browser requests
-      */
+      // Allow direct browser, Postman, health checks,
+      // server-to-server requests, etc.
       if (!origin) {
         return callback(null, true);
       }
@@ -142,6 +139,10 @@ app.use(
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
+
+      console.warn(
+        `ACV Plus CORS blocked origin: ${origin}`
+      );
 
       return callback(
         new Error("Not allowed by CORS")
@@ -163,6 +164,8 @@ app.use(
       "Content-Type",
       "Authorization",
     ],
+
+    optionsSuccessStatus: 204,
   })
 );
 
@@ -170,11 +173,16 @@ app.use(
    BODY PARSERS
 ========================================= */
 
-app.use(express.json());
+app.use(
+  express.json({
+    limit: "10mb",
+  })
+);
 
 app.use(
   express.urlencoded({
     extended: true,
+    limit: "10mb",
   })
 );
 
@@ -188,10 +196,6 @@ app.use(
     path.join(__dirname, "uploads"),
     {
       setHeaders: (res) => {
-        /*
-          Product images are allowed to load
-          from the ACV Plus frontend.
-        */
         res.setHeader(
           "Cross-Origin-Resource-Policy",
           "cross-origin"
@@ -211,6 +215,24 @@ app.use(
 ========================================= */
 
 connectDB();
+
+/* =========================================
+   HOME / HEALTH ROUTE
+========================================= */
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "ACV Plus Backend is running",
+  });
+});
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "ACV Plus API is healthy",
+  });
+});
 
 /* =========================================
    API ROUTES
@@ -242,17 +264,6 @@ app.use(
 );
 
 /* =========================================
-   HOME / HEALTH ROUTE
-========================================= */
-
-app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "ACV Plus Backend is running",
-  });
-});
-
-/* =========================================
    404 HANDLER
 ========================================= */
 
@@ -260,6 +271,7 @@ app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: "Route not found",
+    path: req.originalUrl,
   });
 });
 
@@ -273,9 +285,6 @@ app.use((error, req, res, next) => {
     error.message
   );
 
-  /*
-    CORS Error
-  */
   if (error.message === "Not allowed by CORS") {
     return res.status(403).json({
       success: false,
@@ -283,9 +292,6 @@ app.use((error, req, res, next) => {
     });
   }
 
-  /*
-    Multer File Size Error
-  */
   if (error.code === "LIMIT_FILE_SIZE") {
     return res.status(400).json({
       success: false,
@@ -294,20 +300,22 @@ app.use((error, req, res, next) => {
     });
   }
 
-  /*
-    Multer Maximum Files Error
-  */
   if (error.code === "LIMIT_FILE_COUNT") {
     return res.status(400).json({
       success: false,
       message:
-        "A maximum of 4 product images is allowed.",
+        "Too many product images were uploaded.",
     });
   }
 
-  /*
-    General Server Error
-  */
+  if (error.code === "LIMIT_UNEXPECTED_FILE") {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Unexpected image field received.",
+    });
+  }
+
   return res
     .status(error.status || 500)
     .json({
@@ -324,11 +332,10 @@ app.use((error, req, res, next) => {
    SERVER
 ========================================= */
 
-const PORT =
-  process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(
-    `ACV Plus Backend running on http://localhost:${PORT}`
+    `ACV Plus Backend running on port ${PORT}`
   );
 });
