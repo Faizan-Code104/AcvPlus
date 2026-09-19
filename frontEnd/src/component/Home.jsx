@@ -144,7 +144,7 @@ const Home = () => {
 
     public/images/acvplus-hero.png
   */
-  const heroImage = "/public/acvplus-hero.png";
+ const heroImage = "/acvplus-hero.png";
 
   /* =======================================================
      PRICE
