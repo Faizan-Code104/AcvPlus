@@ -16,7 +16,7 @@ import {
 
 const BUSINESS_INFO = {
   businessName: "ACV Plus",
-  descriptor: "Sophia Strategic Travisions LLC",
+  descriptor: "Travisions LLC",
   email: "Support@acvplus.us",
   phoneDisplay: "+1 (888) 944-6546",
   phoneHref: "+18889446546",
@@ -202,7 +202,7 @@ const Contact = () => {
       <section className="relative py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
-            {/* LEFT */}
+            {/* LEFT SIDE */}
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#3569C8]">
                 <Sparkles size={15} />
@@ -274,6 +274,7 @@ const Contact = () => {
                 />
               </div>
 
+              {/* BUSINESS DESCRIPTOR */}
               <div className="mt-6 rounded-3xl border border-[#C5D7FF] bg-[#E8F1FF] p-6">
                 <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#3569C8]">
                   Business Descriptor
@@ -285,7 +286,7 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* FORM */}
+            {/* CONTACT FORM */}
             <div className="rounded-[32px] border border-[#D6E2F7] bg-white p-5 shadow-[0_20px_60px_rgba(16,40,93,0.08)] sm:p-8 lg:p-10">
               <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#3569C8]">
                 <Send size={15} />
@@ -369,6 +370,7 @@ const Contact = () => {
                       size={20}
                       className="mt-0.5 shrink-0"
                     />
+
                     <span>{successMessage}</span>
                   </div>
                 )}
@@ -382,6 +384,7 @@ const Contact = () => {
                       size={20}
                       className="mt-0.5 shrink-0"
                     />
+
                     <span>{errorMessage}</span>
                   </div>
                 )}
@@ -518,8 +521,13 @@ const SupportItem = ({ icon: Icon, title, text }) => {
       </div>
 
       <div>
-        <p className="text-sm font-semibold text-[#10285D]">{title}</p>
-        <p className="mt-0.5 text-xs text-[#263B63]/55">{text}</p>
+        <p className="text-sm font-semibold text-[#10285D]">
+          {title}
+        </p>
+
+        <p className="mt-0.5 text-xs text-[#263B63]/55">
+          {text}
+        </p>
       </div>
     </div>
   );
@@ -541,6 +549,7 @@ const LeafIcon = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
+
     <path
       d="M4 20C7.2 15.7 11.1 12.3 16.2 9.5"
       stroke="currentColor"
