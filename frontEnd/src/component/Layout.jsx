@@ -23,7 +23,7 @@ const BUSINESS_INFO = {
   phoneDisplay: "+1 (888) 944-6546",
   phoneHref: "+18889446546",
   address: "4808 Fairmont Pkwy, Pasadena, TX 77505",
-  descriptor: "Sophia Strategic Travisions LLC",
+  descriptor: "Travisions LLC",
 };
 
 /* =========================================================
