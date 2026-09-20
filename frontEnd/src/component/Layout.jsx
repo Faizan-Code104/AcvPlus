@@ -114,15 +114,15 @@ const policyLinks = [
 const paymentCards = [
   {
     name: "Visa",
-    src: "/visa card.jpeg",
+    src: "/pay-visa.svg",
   },
   {
     name: "Discover",
-    src: "/pay-mastercard_4K.png",
+    src: "/pay-mastercard.svg",
   },
   {
     name: "American Express",
-    src: "/discover card.jpeg",
+    src: "/pay-discover.svg",
   },
 ];
 
@@ -152,8 +152,7 @@ const Layout = ({ children }) => {
 
     if (path === "/shop") {
       return (
-        location.pathname === "/shop" ||
-        location.pathname.startsWith("/shop/")
+        location.pathname === "/shop" || location.pathname.startsWith("/shop/")
       );
     }
 
@@ -241,18 +240,14 @@ const Layout = ({ children }) => {
                     key={item.name}
                     to={item.path}
                     className={`relative flex h-[74px] items-center whitespace-nowrap text-[13px] font-medium transition-colors ${
-                      active
-                        ? "text-white"
-                        : "text-white/75 hover:text-white"
+                      active ? "text-white" : "text-white/75 hover:text-white"
                     }`}
                   >
                     {item.name}
 
                     <span
                       className={`absolute bottom-0 left-1/2 h-[2px] -translate-x-1/2 rounded-full bg-[#AFC8FF] transition-all duration-300 ${
-                        active
-                          ? "w-full opacity-100"
-                          : "w-0 opacity-0"
+                        active ? "w-full opacity-100" : "w-0 opacity-0"
                       }`}
                     />
                   </Link>
@@ -282,9 +277,7 @@ const Layout = ({ children }) => {
               <Link
                 to="/cart"
                 aria-label={`Shopping cart${
-                  cartCount > 0
-                    ? ` with ${cartCount} items`
-                    : ""
+                  cartCount > 0 ? ` with ${cartCount} items` : ""
                 }`}
                 className="relative flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors hover:bg-white/10"
               >
@@ -306,13 +299,9 @@ const Layout = ({ children }) => {
 
               <button
                 type="button"
-                aria-label={
-                  mobileMenuOpen ? "Close menu" : "Open menu"
-                }
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
-                onClick={() =>
-                  setMobileMenuOpen((current) => !current)
-                }
+                onClick={() => setMobileMenuOpen((current) => !current)}
                 className="ml-1 flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 lg:hidden"
               >
                 {mobileMenuOpen ? (
@@ -352,9 +341,7 @@ const Layout = ({ children }) => {
                       to={item.path}
                       onClick={closeMobileMenu}
                       className={`flex min-h-[52px] items-center justify-between border-b border-white/10 text-[13px] font-medium ${
-                        active
-                          ? "text-[#AFC8FF]"
-                          : "text-white/75"
+                        active ? "text-[#AFC8FF]" : "text-white/75"
                       }`}
                     >
                       <span>{item.name}</span>
@@ -449,8 +436,8 @@ const Layout = ({ children }) => {
               </p>
 
               <p className="mt-4 max-w-[280px] text-[12px] leading-6 text-white/60">
-                Explore ACV Plus products and review available
-                product information before ordering.
+                Explore ACV Plus products and review available product
+                information before ordering.
               </p>
 
               <div className="mt-5 max-w-[300px] rounded-[14px] border border-white/10 bg-white/[0.04] px-4 py-3">
@@ -468,10 +455,7 @@ const Layout = ({ children }) => {
                 QUICK LINKS
             =========================================== */}
 
-            <FooterColumn
-              title="Quick Links"
-              links={quickLinks}
-            />
+            <FooterColumn title="Quick Links" links={quickLinks} />
 
             {/* ===========================================
                 PAYMENT METHODS
@@ -498,15 +482,14 @@ const Layout = ({ children }) => {
                     <img
                       src={card.src}
                       alt={`${card.name} card`}
-                      className="block h-[70px] w-auto max-w-[70px] object-contain transition-transform duration-300 ease-out group-hover:scale-105 xl:h-[34px] xl:max-w-[76px]"
+                      className="block h-[38px] w-auto max-w-[74px] object-contain transition-transform duration-300 ease-out group-hover:scale-105 xl:h-[40px] xl:max-w-[78px]"
                     />
                   </div>
                 ))}
               </div>
 
               <p className="mt-4 max-w-[250px] text-[11px] leading-5 text-white/45">
-                Available payment methods are confirmed during
-                checkout.
+                Available payment methods are confirmed during checkout.
               </p>
             </div>
 
@@ -523,32 +506,21 @@ const Layout = ({ children }) => {
                 Get ACV Plus store updates and product news.
               </p>
 
-              <form
-                onSubmit={handleNewsletter}
-                className="mt-4"
-              >
+              <form onSubmit={handleNewsletter} className="mt-4">
                 <div className="flex h-[46px] overflow-hidden rounded-full bg-white">
-                  <label
-                    htmlFor="footer-newsletter-email"
-                    className="sr-only"
-                  >
+                  <label htmlFor="footer-newsletter-email" className="sr-only">
                     Email address
                   </label>
 
                   <div className="flex min-w-0 flex-1 items-center gap-2 pl-4">
-                    <Mail
-                      size={15}
-                      className="shrink-0 text-[#3569C8]/50"
-                    />
+                    <Mail size={15} className="shrink-0 text-[#3569C8]/50" />
 
                     <input
                       id="footer-newsletter-email"
                       type="email"
                       value={newsletterEmail}
                       onChange={(event) => {
-                        setNewsletterEmail(
-                          event.target.value
-                        );
+                        setNewsletterEmail(event.target.value);
 
                         if (newsletterMessage) {
                           setNewsletterMessage("");
@@ -602,10 +574,9 @@ const Layout = ({ children }) => {
 
           <div className="mx-auto mt-9 max-w-[920px] px-3 text-center">
             <p className="text-[12px] leading-6 text-white/60">
-              These statements have not been evaluated by the Food
-              and Drug Administration. ACV Plus products are not
-              intended to diagnose, treat, cure, or prevent any
-              disease. Results may vary.
+              These statements have not been evaluated by the Food and Drug
+              Administration. ACV Plus products are not intended to diagnose,
+              treat, cure, or prevent any disease. Results may vary.
             </p>
           </div>
 
@@ -621,8 +592,7 @@ const Layout = ({ children }) => {
 
           <div className="flex flex-col gap-4 py-5 lg:flex-row lg:items-center lg:justify-between">
             <p className="shrink-0 text-[11px] text-white/55">
-              © {new Date().getFullYear()} ACV Plus. All rights
-              reserved.
+              © {new Date().getFullYear()} ACV Plus. All rights reserved.
             </p>
 
             <nav
@@ -653,9 +623,7 @@ const Layout = ({ children }) => {
 const FooterColumn = ({ title, links }) => {
   return (
     <div>
-      <h3 className="text-[14px] font-bold text-white">
-        {title}
-      </h3>
+      <h3 className="text-[14px] font-bold text-white">{title}</h3>
 
       <ul className="mt-4 space-y-2.5">
         {links.map((item) => (
